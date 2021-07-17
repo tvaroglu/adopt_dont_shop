@@ -1,11 +1,7 @@
 # Adopt, don't Shop
 
 ### Existing database design
-<img width="950" alt="original_schema" src="https://i.postimg.cc/0ywZgQ1W/visual-schema.png">
-
-### Proposed database design
-<img width="950" alt="db_schema_2021-07-16_at_14_04_37" src="https://user-images.githubusercontent.com/58891447/126002884-653d04ec-fc06-43fc-aed8-5596c3694505.png">
-
+![visual-schema.png](https://i.postimg.cc/0ywZgQ1W/visual-schema.png)
 
 ## Learning Goals
 
@@ -36,7 +32,7 @@ During your Check In, you should be prepared to review your database schema for 
 
 ## Evaluation
 
-Before your evaluation, choose 2 user stories to present in a small group. Try to pick user stories that you think will deliever the highest value in terms of feedback from the instructor and peers.
+Before your evaluation, choose 2 user stories to present in a small group. Try to pick user stories that you think will deliever the highest value in terms of feedback from the instructor and peers. 
 
 During the evaluation, you will present your user story:
 
@@ -424,44 +420,3 @@ Then next to each pet's name I see a link to the admin application show page whe
 ### Styling
 
 Implement a CSS Grid Framework to improve your styling, either [CSS Grid Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout) or [Bootstrap](https://getbootstrap.com/)
-
-
-
-#### Project Configurations
-
-* Ruby version
-    ```bash
-    $ ruby -v
-    ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_64-darwin20]
-    ```
-
-* [System dependencies](https://github.com/tvaroglu/adopt_dont_shop/blob/main/Gemfile)
-    ```bash
-    $ rails -v
-    Rails 5.2.6
-    ```
-
-* Database creation
-    ```bash
-    $ rails db:create
-    Created database 'adopt_dont_shop_development'
-    Created database 'adopt_dont_shop_test'
-    ```
-
-* Database initialization
-    ```bash
-    $ rails generate migration CreateApplications applicant_fullname:string applicant_address:string applicant_city:string applicant_state:string applicant_zipcode:string applicant_description:string status:string
-    $ rails db:migrate
-    $ rails dbconsole
-    ```
-
-* How to run the test suite
-    ```bash
-    $ bundle exec rspec
-    ```
-
-* Local deployment instructions, for testing:
-    ```bash
-    $ rails s
-    ```
-    [http://localhost:3000](http://localhost:3000)
