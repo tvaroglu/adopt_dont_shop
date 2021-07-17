@@ -55,13 +55,14 @@ class VeterinaryOfficesController < ApplicationController
 
   def destroy
     vet_office = VeterinaryOffice.find(params[:id])
+    vet_office.veterinarians.destroy_all
     vet_office.destroy
     redirect_to '/veterinary_offices'
   end
 
   private
-
   def vet_office_params
     params.permit(:name, :max_patient_capacity, :boarding_services)
   end
+
 end
