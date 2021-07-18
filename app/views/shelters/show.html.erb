@@ -3,8 +3,9 @@
   <p>Rank: <%= @shelter.rank %></p>
   <p>City: <%= @shelter.city %></p>
 
-  <p class="pet-count">Pets at <%= @shelter.name %>: <%= @shelter.pet_count %></p>
-  <p><%= link_to "All pets at #{@shelter.name}", "/admin/shelters/#{@shelter.id}/pets" %></p>
-
-  <p><%= link_to "Delete #{@shelter.name}", "/admin/shelters/#{@shelter.id}", method: :delete %></p>
+  <p class="pet-count">Total pets at <%= @shelter.name %>: <%= @shelter.pet_count %></p>
+  <div style="float:left; padding-right:5px;">
+    <%= button_to "All Pets At: #{@shelter.name}", "/admin/shelters/#{@shelter.id}/pets", method: :get %>
+  </div>
+  <%= button_to "Delete #{@shelter.name}", "/admin/shelters/#{@shelter.id}", method: :delete %>
 </div>

@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   patch '/pets/:id', to: 'pets#update'
   delete '/pets/:id', to: 'pets#destroy'
 
-  get 'admin/applications/:id', to: 'applications#show'
+  get '/admin/applications/:id', to: 'applications#show'
+  get '/admin/applications/new', to: 'applications#new'
+  post '/admin/applications', to: 'applications#create'
 
 
 

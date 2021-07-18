@@ -30,7 +30,7 @@ RSpec.describe 'the shelters pets index' do
   it 'displays a link to create a new pet' do
     visit "/admin/shelters/#{@shelter.id}/pets"
 
-    expect(page).to have_link("Create a Pet")
+    expect(page).to have_button("Create a Pet")
     click_on("Create a Pet")
     expect(page).to have_current_path("/admin/shelters/#{@shelter.id}/pets/new")
   end
@@ -38,10 +38,10 @@ RSpec.describe 'the shelters pets index' do
   it 'displays a link to edit each pet' do
     visit "/admin/shelters/#{@shelter.id}/pets"
 
-    expect(page).to have_link("Edit #{@pet_1.name}")
-    expect(page).to have_link("Edit #{@pet_2.name}")
+    expect(page).to have_button("Edit #{@pet_1.name}")
+    expect(page).to have_button("Edit #{@pet_2.name}")
 
-    click_link("Edit #{@pet_1.name}")
+    click_on("Edit #{@pet_1.name}")
 
     expect(page).to have_current_path("/pets/#{@pet_1.id}/edit")
   end
@@ -49,10 +49,10 @@ RSpec.describe 'the shelters pets index' do
   it 'displays a link to delete each pet' do
     visit "/admin/shelters/#{@shelter.id}/pets"
 
-    expect(page).to have_link("Delete #{@pet_1.name}")
-    expect(page).to have_link("Delete #{@pet_2.name}")
+    expect(page).to have_button("Delete #{@pet_1.name}")
+    expect(page).to have_button("Delete #{@pet_2.name}")
 
-    click_link("Delete #{@pet_1.name}")
+    click_on("Delete #{@pet_1.name}")
 
     expect(page).to have_current_path("/pets")
     expect(page).to_not have_content(@pet_1.name)
@@ -69,7 +69,7 @@ RSpec.describe 'the shelters pets index' do
     visit "/admin/shelters/#{@shelter.id}/pets"
 
     find("#age option[value='3']").select_option
-    click_button("Filter")
+    click_button("Filter Pets")
     expect(page).to have_content(@pet_2.name)
     expect(page).to_not have_content(@pet_1.name)
     expect(page).to_not have_content(@pet_3.name)
@@ -81,8 +81,8 @@ RSpec.describe 'the shelters pets index' do
     expect(@pet_1.name).to appear_before(@pet_2.name)
     expect(@pet_2.name).to appear_before(@pet_4.name)
 
-    expect(page).to have_link("Sort alphabetically")
-    click_on("Sort alphabetically")
+    expect(page).to have_link("Sort Alphabetically")
+    click_on("Sort Alphabetically")
 
     expect(@pet_1.name).to appear_before(@pet_4.name)
     expect(@pet_4.name).to appear_before(@pet_2.name)

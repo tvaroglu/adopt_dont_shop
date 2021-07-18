@@ -38,8 +38,8 @@ RSpec.describe 'the shelter show' do
 
     visit "/admin/shelters/#{shelter.id}"
 
-    expect(page).to have_link("All pets at #{shelter.name}")
-    click_link("All pets at #{shelter.name}")
+    expect(page).to have_button("All Pets At: #{shelter.name}")
+    click_on("All Pets At: #{shelter.name}")
 
     expect(page).to have_current_path("/admin/shelters/#{shelter.id}/pets")
   end
