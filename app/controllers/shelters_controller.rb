@@ -30,7 +30,6 @@ class SheltersController < ApplicationController
 
   def create
     shelter = Shelter.new(shelter_params)
-
     if shelter.save
       redirect_to '/admin/shelters'
     else

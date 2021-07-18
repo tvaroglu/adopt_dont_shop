@@ -5,7 +5,7 @@
 
   <p class="pet-count">Total pets at <%= @shelter.name %>: <%= @shelter.pet_count %></p>
   <div style="float:left; padding-right:5px;">
-    <%= button_to "All Pets At: #{@shelter.name}", "/admin/shelters/#{@shelter.id}/pets", method: :get %>
+    <%= button_to "View All Pets At: #{@shelter.name}", "/admin/shelters/#{@shelter.id}/pets", method: :get %>
   </div>
-  <%= button_to "Delete #{@shelter.name}", "/admin/shelters/#{@shelter.id}", method: :delete %>
+  <%= button_to "Delete: #{@shelter.name}", "/admin/shelters/#{@shelter.id}", method: :delete %>
 </div>

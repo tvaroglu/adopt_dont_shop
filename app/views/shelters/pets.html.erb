@@ -7,7 +7,7 @@
     <%= form.select :age, (1..15).to_a %>
     <%= form.submit "Filter Pets" %>
   <% end %>
-  <%= button_to "Create a Pet", "/admin/shelters/#{@shelter.id}/pets/new", method: :get %>
+  <%= button_to "Create New Pet", "/admin/shelters/#{@shelter.id}/pets/new", method: :get %>
   <br><br>
   <% @shelter_pets.each do |pet| %>
     <div id="pet-<%= pet.id %>">

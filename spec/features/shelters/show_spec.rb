@@ -27,7 +27,7 @@ RSpec.describe 'the shelter show' do
 
     visit "/admin/shelters/#{shelter.id}"
 
-    click_on("Delete #{shelter.name}")
+    click_on("Delete: #{shelter.name}")
 
     expect(page).to have_current_path('/admin/shelters')
     expect(page).to_not have_content(shelter.name)
@@ -38,7 +38,7 @@ RSpec.describe 'the shelter show' do
 
     visit "/admin/shelters/#{shelter.id}"
 
-    expect(page).to have_button("All Pets At: #{shelter.name}")
+    expect(page).to have_button("View All Pets At: #{shelter.name}")
     click_on("All Pets At: #{shelter.name}")
 
     expect(page).to have_current_path("/admin/shelters/#{shelter.id}/pets")

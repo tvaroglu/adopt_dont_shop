@@ -30,8 +30,8 @@ RSpec.describe 'the shelters pets index' do
   it 'displays a link to create a new pet' do
     visit "/admin/shelters/#{@shelter.id}/pets"
 
-    expect(page).to have_button("Create a Pet")
-    click_on("Create a Pet")
+    expect(page).to have_button("Create New Pet")
+    click_on("Create New Pet")
     expect(page).to have_current_path("/admin/shelters/#{@shelter.id}/pets/new")
   end
 

@@ -6,6 +6,15 @@ RSpec.describe Application, type: :model do
     it {should have_many(:pets).through(:pet_applications)}
   end
 
+  describe 'validations' do
+    it { should validate_presence_of(:applicant_fullname) }
+    it { should validate_presence_of(:applicant_address) }
+    it { should validate_presence_of(:applicant_city) }
+    it { should validate_presence_of(:applicant_state) }
+    it { should validate_presence_of(:applicant_zipcode) }
+    it { should validate_presence_of(:applicant_description) }
+  end
+
   describe 'instance methods' do
     it 'can return #last_updated date' do
       application = Application.create!(
