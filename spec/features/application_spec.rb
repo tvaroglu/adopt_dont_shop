@@ -12,10 +12,10 @@ RSpec.describe 'application' do
   it 'displays a link to the admin shelters index' do
     visit '/'
 
-    expect(page).to have_link("Admin Only - Shelters")
-    click_link("Admin Only - Shelters")
+    expect(page).to have_link("Admin - Shelters")
+    click_link("Admin - Shelters")
     expect(page).to have_current_path('/admin/shelters')
-    expect(page).to have_link("Admin Only - Shelters")
+    expect(page).to have_link("Admin - Shelters")
     expect(page).to have_link("Pets")
     # expect(page).to have_link("Veterinarians")
     # expect(page).to have_link("Veterinary Offices")
