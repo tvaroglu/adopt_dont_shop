@@ -1,6 +1,7 @@
 class SheltersController < ApplicationController
+
   def index
-    if params[:sort].present? && params[:sort] == "pet_count"
+    if params[:sort] == "pet_count"
       @shelters = Shelter.order_by_number_of_pets
     elsif params[:search].present?
       @shelters = Shelter.search(params[:search])
@@ -11,7 +12,6 @@ class SheltersController < ApplicationController
 
   def pets
     @shelter = Shelter.find(params[:shelter_id])
-
     if params[:sort] == 'alphabetical'
       @shelter_pets = @shelter.alphabetical_pets
     elsif params[:age]
@@ -30,11 +30,10 @@ class SheltersController < ApplicationController
 
   def create
     shelter = Shelter.new(shelter_params)
-
     if shelter.save
-      redirect_to '/shelters'
+      redirect_to '/admin/shelters'
     else
-      redirect_to '/shelters/new'
+      redirect_to '/admin/shelters/new'
       flash[:alert] = "Error: #{error_message(shelter.errors)}"
     end
   end
@@ -46,9 +45,9 @@ class SheltersController < ApplicationController
   def update
     shelter = Shelter.find(shelter_params[:id])
     if shelter.update(shelter_params)
-      redirect_to '/shelters'
+      redirect_to '/admin/shelters'
     else
-      redirect_to "/shelters/#{shelter.id}/edit"
+      redirect_to "/admin/shelters/#{shelter.id}/edit"
       flash[:alert] = "Error: #{error_message(shelter.errors)}"
     end
   end
@@ -57,12 +56,12 @@ class SheltersController < ApplicationController
     shelter = Shelter.find(params[:id])
     shelter.pets.destroy_all
     shelter.destroy
-    redirect_to '/shelters'
+    redirect_to '/admin/shelters'
   end
 
   private
   def shelter_params
     params.permit(:id, :name, :city, :foster_program, :rank)
   end
-  
+
 end

@@ -1,18 +1,32 @@
-<h1>All Pets</h1>
+<div style="padding-left:20px;">
+  <h1>All Pets</h1>
 
-<%= form_with url: "/pets", method: :get, local: true do |f| %>
-  <%= f.label :search %>
-  <%= f.text_field :search %>
-  <%= f.submit "Search" %>
-<% end %>
+  <%= form_with url: "/pets", method: :get, local: true do |f| %>
+    <%= f.label :search %>
+    <%= f.text_field :search %>
+    <%= f.submit "Search" %>
+  <% end %>
+  <br>
+  <%= button_to "New Adoption Application", "/admin/applications/new", method: :get %>
+  <br><br><br>
 
-
-<% @pets.each do |pet| %>
-  <h3><%= pet.name %></h3>
-  <p>Age: <%= pet.age %></p>
-  <p>Breed: <%= pet.breed %></p>
-  <p>Adoptable: </p>
-  <p>You can find <%= pet.name %> at <%= pet.shelter_name %>!</p>
-  <%= link_to "Edit #{pet.name}", "/pets/#{pet.id}/edit" %>
-  <%= link_to "Delete #{pet.name}", "/pets/#{pet.id}", method: :delete %>
-<% end %>
+  <% @pets.each do |pet| %>
+  <div id="pet-<%= pet.id %>">
+      <h3><em><%= pet.name %></em></h3>
+      <p>Age: <%= pet.age %></p>
+      <p>Breed: <%= pet.breed %></p>
+      <% if pet.adoptable? %>
+        <p>Adoptable: Yes</p>
+      <% else %>
+        <p>Adoptable: No</p>
+      <% end %>
+      <p>You can find <%= pet.name %> at <%= "#{pet.shelter_name}" %>!</p>
+      <div style="float:left; padding-right:5px;">
+        <%= button_to "Edit: #{pet.name}", "/pets/#{pet.id}/edit", method: :get %>
+      </div>
+      <%= button_to "Delete: #{pet.name}", "/pets/#{pet.id}", method: :delete %>
+      <br><br>
+  </div>
+  <% end %>
+  <br><br>
+</div>

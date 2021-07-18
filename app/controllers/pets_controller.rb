@@ -1,4 +1,5 @@
 class PetsController < ApplicationController
+
   def index
     if params[:search].present?
       @pets = Pet.search(params[:search])
@@ -17,11 +18,10 @@ class PetsController < ApplicationController
 
   def create
     pet = Pet.new(pet_params)
-
     if pet.save
-      redirect_to "/shelters/#{pet_params[:shelter_id]}/pets"
+      redirect_to "/admin/shelters/#{pet_params[:shelter_id]}/pets"
     else
-      redirect_to "/shelters/#{pet_params[:shelter_id]}/pets/new"
+      redirect_to "/admin/shelters/#{pet_params[:shelter_id]}/pets/new"
       flash[:alert] = "Error: #{error_message(pet.errors)}"
     end
   end
@@ -46,8 +46,8 @@ class PetsController < ApplicationController
   end
 
   private
-
   def pet_params
     params.permit(:id, :name, :age, :breed, :adoptable, :shelter_id)
   end
+
 end
