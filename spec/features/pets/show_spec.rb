@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'the shelter show' do
-  it "shows the shelter and all it's attributes" do
+RSpec.describe 'the pet show' do
+  it "shows the pet and all it's attributes" do
     shelter = Shelter.create(name: 'Mystery Building', city: 'Irvine CA', foster_program: false, rank: 9)
     pet = Pet.create(name: 'Scooby', age: 2, breed: 'Great Dane', adoptable: true, shelter_id: shelter.id)
 
@@ -20,7 +20,7 @@ RSpec.describe 'the shelter show' do
 
     visit "/pets/#{pet.id}"
 
-    click_on("Delete #{pet.name}")
+    click_on("Delete: #{pet.name}")
 
     expect(page).to have_current_path('/pets')
     expect(page).to_not have_content(pet.name)

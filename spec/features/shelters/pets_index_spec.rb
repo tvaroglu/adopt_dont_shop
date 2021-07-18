@@ -38,10 +38,10 @@ RSpec.describe 'the shelters pets index' do
   it 'displays a link to edit each pet' do
     visit "/admin/shelters/#{@shelter.id}/pets"
 
-    expect(page).to have_button("Edit #{@pet_1.name}")
-    expect(page).to have_button("Edit #{@pet_2.name}")
+    expect(page).to have_button("Edit: #{@pet_1.name}")
+    expect(page).to have_button("Edit: #{@pet_2.name}")
 
-    click_on("Edit #{@pet_1.name}")
+    click_on("Edit: #{@pet_1.name}")
 
     expect(page).to have_current_path("/pets/#{@pet_1.id}/edit")
   end
@@ -49,10 +49,10 @@ RSpec.describe 'the shelters pets index' do
   it 'displays a link to delete each pet' do
     visit "/admin/shelters/#{@shelter.id}/pets"
 
-    expect(page).to have_button("Delete #{@pet_1.name}")
-    expect(page).to have_button("Delete #{@pet_2.name}")
+    expect(page).to have_button("Delete: #{@pet_1.name}")
+    expect(page).to have_button("Delete: #{@pet_2.name}")
 
-    click_on("Delete #{@pet_1.name}")
+    click_on("Delete: #{@pet_1.name}")
 
     expect(page).to have_current_path("/pets")
     expect(page).to_not have_content(@pet_1.name)
@@ -81,10 +81,18 @@ RSpec.describe 'the shelters pets index' do
     expect(@pet_1.name).to appear_before(@pet_2.name)
     expect(@pet_2.name).to appear_before(@pet_4.name)
 
-    expect(page).to have_link("Sort Alphabetically")
+    expect(page).to have_button("Sort Alphabetically")
     click_on("Sort Alphabetically")
 
     expect(@pet_1.name).to appear_before(@pet_4.name)
     expect(@pet_4.name).to appear_before(@pet_2.name)
+  end
+
+  it 'links back to the shelter show page' do
+    visit "/admin/shelters/#{@shelter.id}/pets"
+
+    click_on(@shelter.name)
+
+    expect(current_path).to eq("/admin/shelters/#{@shelter.id}")
   end
 end

@@ -44,8 +44,8 @@ RSpec.describe 'the shelters index' do
   it 'has a link to sort shelters by the number of pets they have' do
     visit "/admin/shelters"
 
-    expect(page).to have_link("Sort by number of pets")
-    click_link("Sort by number of pets")
+    expect(page).to have_button("Sort by: Number of Pets")
+    click_on("Sort by: Number of Pets")
 
     expect(page).to have_current_path('/admin/shelters?sort=pet_count')
     expect(@shelter_1.name).to appear_before(@shelter_3.name)
@@ -56,18 +56,18 @@ RSpec.describe 'the shelters index' do
     visit "/admin/shelters"
 
     within "#shelter-#{@shelter_1.id}" do
-      expect(page).to have_button("Update #{@shelter_1.name}")
+      expect(page).to have_button("Update: #{@shelter_1.name}")
     end
 
     within "#shelter-#{@shelter_2.id}" do
-      expect(page).to have_button("Update #{@shelter_2.name}")
+      expect(page).to have_button("Update: #{@shelter_2.name}")
     end
 
     within "#shelter-#{@shelter_3.id}" do
-      expect(page).to have_button("Update #{@shelter_3.name}")
+      expect(page).to have_button("Update: #{@shelter_3.name}")
     end
 
-    click_on("Update #{@shelter_1.name}")
+    click_on("Update: #{@shelter_1.name}")
     expect(page).to have_current_path("/admin/shelters/#{@shelter_1.id}/edit")
   end
 
@@ -75,18 +75,18 @@ RSpec.describe 'the shelters index' do
     visit "/admin/shelters"
 
     within "#shelter-#{@shelter_1.id}" do
-      expect(page).to have_button("Delete #{@shelter_1.name}")
+      expect(page).to have_button("Delete: #{@shelter_1.name}")
     end
 
     within "#shelter-#{@shelter_2.id}" do
-      expect(page).to have_button("Delete #{@shelter_2.name}")
+      expect(page).to have_button("Delete: #{@shelter_2.name}")
     end
 
     within "#shelter-#{@shelter_3.id}" do
-      expect(page).to have_button("Delete #{@shelter_3.name}")
+      expect(page).to have_button("Delete: #{@shelter_3.name}")
     end
 
-    click_on("Delete #{@shelter_1.name}")
+    click_on("Delete: #{@shelter_1.name}")
     expect(page).to have_current_path("/admin/shelters")
     expect(page).to_not have_content(@shelter_1.name)
   end

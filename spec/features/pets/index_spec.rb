@@ -85,10 +85,10 @@ RSpec.describe 'the pets index' do
     visit '/pets'
     # save_and_open_page
 
-    expect(page).to have_button("Edit #{pet_1.name}")
-    expect(page).to have_button("Edit #{pet_2.name}")
+    expect(page).to have_button("Edit: #{pet_1.name}")
+    expect(page).to have_button("Edit: #{pet_2.name}")
 
-    click_on("Edit #{pet_1.name}")
+    click_on("Edit: #{pet_1.name}")
 
     expect(page).to have_current_path("/pets/#{pet_1.id}/edit")
   end
@@ -115,10 +115,10 @@ RSpec.describe 'the pets index' do
     visit '/pets'
     # save_and_open_page
 
-    expect(page).to have_button("Delete #{pet_1.name}")
-    expect(page).to have_button("Delete #{pet_2.name}")
+    expect(page).to have_button("Delete: #{pet_1.name}")
+    expect(page).to have_button("Delete: #{pet_2.name}")
 
-    click_on("Delete #{pet_1.name}")
+    click_on("Delete: #{pet_1.name}")
 
     expect(page).to have_current_path("/pets")
     expect(page).to_not have_content(pet_1.name)
