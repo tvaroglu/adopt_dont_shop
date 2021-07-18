@@ -94,3 +94,5 @@ yarn-debug.log*
 
 .DS_Store
 
+app/views/application/auth.html.erb
+

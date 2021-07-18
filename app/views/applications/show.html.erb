@@ -1,0 +1,14 @@
+<div style="padding-left: 20px;">
+  <h3><%= "Application: #{@application.last_updated}" %></h3>
+    <h6><%= "Name: #{@application.applicant_fullname}" %></h6>
+    <h6><%= "Address: #{@application.full_address}" %></h6>
+    <h6><%= "Description: #{@application.applicant_description}" %></h6>
+    <h6><%= "Status: #{@application.status}" %></h6>
+    <br>
+    <h6><em>Pets Applied For:</em></h6>
+    <% @pets.each do |pet| %>
+      <div id="pet-<%= pet.id %>">
+        <p><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></p>
+      </div>
+    <% end %>
+</div>
