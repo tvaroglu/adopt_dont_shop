@@ -9,39 +9,39 @@ RSpec.describe 'application' do
     expect(page).to have_current_path('/pets')
   end
 
-  it 'displays a link to all shelters' do
+  it 'displays a link to the admin shelters index' do
     visit '/'
 
-    expect(page).to have_link("Shelters")
-    click_link("Shelters")
-    expect(page).to have_current_path('/shelters')
-    expect(page).to have_link("Shelters")
+    expect(page).to have_link("Admin Only - Shelters")
+    click_link("Admin Only - Shelters")
+    expect(page).to have_current_path('/admin/shelters')
+    expect(page).to have_link("Admin Only - Shelters")
     expect(page).to have_link("Pets")
-    expect(page).to have_link("Veterinarians")
-    expect(page).to have_link("Veterinary Offices")
+    # expect(page).to have_link("Veterinarians")
+    # expect(page).to have_link("Veterinary Offices")
   end
 
-  it 'displays a link to all veterinary offices' do
-    visit '/'
+  # it 'displays a link to all veterinary offices' do
+  #   visit '/'
+  #
+  #   expect(page).to have_link("Veterinary Offices")
+  #   click_link("Veterinary Offices")
+  #   expect(page).to have_current_path('/veterinary_offices')
+  #   expect(page).to have_link("Shelters")
+  #   expect(page).to have_link("Pets")
+  #   expect(page).to have_link("Veterinarians")
+  #   expect(page).to have_link("Veterinary Offices")
+  # end
 
-    expect(page).to have_link("Veterinary Offices")
-    click_link("Veterinary Offices")
-    expect(page).to have_current_path('/veterinary_offices')
-    expect(page).to have_link("Shelters")
-    expect(page).to have_link("Pets")
-    expect(page).to have_link("Veterinarians")
-    expect(page).to have_link("Veterinary Offices")
-  end
-
-  it 'displays a link to all veterinarians' do
-    visit '/'
-
-    expect(page).to have_link("Veterinarians")
-    click_link("Veterinarians")
-    expect(page).to have_current_path('/veterinarians')
-    expect(page).to have_link("Shelters")
-    expect(page).to have_link("Pets")
-    expect(page).to have_link("Veterinarians")
-    expect(page).to have_link("Veterinary Offices")
-  end
+  # it 'displays a link to all veterinarians' do
+  #   visit '/'
+  #
+  #   expect(page).to have_link("Veterinarians")
+  #   click_link("Veterinarians")
+  #   expect(page).to have_current_path('/veterinarians')
+  #   expect(page).to have_link("Shelters")
+  #   expect(page).to have_link("Pets")
+  #   expect(page).to have_link("Veterinarians")
+  #   expect(page).to have_link("Veterinary Offices")
+  # end
 end
