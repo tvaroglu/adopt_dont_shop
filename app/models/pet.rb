@@ -13,4 +13,8 @@ class Pet < ApplicationRecord
   def self.adoptable
     where(adoptable: true)
   end
+
+  def on_current_application?(application_id)
+    self.applications.where(id: application_id).count > 0
+  end
 end

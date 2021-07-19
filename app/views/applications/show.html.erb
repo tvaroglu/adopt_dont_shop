@@ -4,11 +4,21 @@
     <h6><%= "Address: #{@application.full_address}" %></h6>
     <h6><%= "Description: #{@application.applicant_description}" %></h6>
     <h6><%= "Status: #{@application.status}" %></h6>
-    <br>
-    <h6><em>Pets Applied For:</em></h6>
+    <br><br>
+    <h4><em>Pets Applied For:</em></h4>
     <% @pets.each do |pet| %>
       <div id="pet-<%= pet.id %>">
         <p><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></p>
       </div>
+    <% end %>
+    <br><br>
+    <% if @application.status != 'Pending' %>
+      <h6><em>Add Pets to Application:</em></h6>
+      <%= form_with url: "/admin/applications/#{@application.id}/search", method: :get, local: true do |f| %>
+        <%= f.label :search, "Pet Name:" %>
+        <%= f.text_field :search %>
+        <%= f.submit "Search Pets" %>
+      <% end %>
+      <br>
     <% end %>
 </div>
