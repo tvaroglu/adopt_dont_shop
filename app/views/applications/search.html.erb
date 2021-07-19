@@ -3,12 +3,12 @@
   <br><br>
   <% @pets.each do |pet| %>
     <div id="pet-<%= pet.id %>">
-      <% if pet.adoptable && !pet.on_current_application?(params[:id]) %>
+      <% if pet.adoptable && !pet.on_current_application?(@application.id) %>
         <h3><%= pet.name %></h3>
         <p>Age: <%= pet.age %></p>
         <p>Breed: <%= pet.breed %></p>
         <p>Shelter: <%= pet.shelter_name %></p>
-        <%= button_to "Add #{pet.name}", "/admin/applications/#{params[:id]}/add_pet", method: :post, params: { pet_id: "#{pet.id}" } %>
+        <%= button_to "Add #{pet.name}", "/admin/applications/#{@application.id}/pets", method: :post, params: { pet_id: "#{pet.id}" } %>
         <br><br>
       <% end %>
     </div>

@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   post '/admin/applications', to: 'applications#create'
   get '/admin/applications/:id', to: 'applications#show'
   get '/admin/applications/:id/search', to: 'applications#search'
-  post '/admin/applications/:id/add_pet', to: 'applications#add_pets'
+  post '/admin/applications/:id/pets', to: 'applications#add_pets'
   patch '/admin/applications/:id/submit', to: 'applications#submit'
 
 
