@@ -49,7 +49,7 @@ During the evaluation, you will present your user story:
 ## Deploy
 
 ```
-[ ] done
+[x] done
 
 Deploy your application to Heroku
 
@@ -67,7 +67,7 @@ Use these guides: https://devcenter.heroku.com/articles/getting-started-with-rai
 Visitors to the site will be able to create applications to adopt pets. An application has many pets. Pets can have many applications.
 
 ```
-[ ] done
+[x] done
 
 Application Show Page
 
@@ -82,7 +82,7 @@ Then I can see the following:
 ```
 
 ```
-[ ] done
+[x] done
 
 Starting an Application
 
@@ -104,7 +104,7 @@ And I see an indicator that this application is "In Progress"
 ```
 
 ```
-[ ] done
+[x] done
 
 Starting an Application, Form not Completed
 
@@ -450,7 +450,7 @@ Implement a CSS Grid Framework to improve your styling, either [CSS Grid Layout]
 
 * Database initialization
     ```bash
-    $ rails generate migration CreateApplications applicant_fullname:string applicant_address:string applicant_city:string applicant_state:string applicant_zipcode:string applicant_description:string status:string
+    $ rails generate migration CreateApplications applicant_fullname:string applicant_address:string applicant_description:string status:string
     $ rails db:migrate
     $ rails dbconsole
     ```
@@ -460,8 +460,19 @@ Implement a CSS Grid Framework to improve your styling, either [CSS Grid Layout]
     $ bundle exec rspec
     ```
 
-* Local deployment instructions, for testing:
+* [Local Deployment](http://localhost:3000), for testing:
     ```bash
     $ rails s
+    => Booting Puma
+    => Rails 5.2.6 application starting in development
+    => Run `rails server -h` for more startup options
+    Puma starting in single mode...
+    * Version 3.12.6 (ruby 2.7.2-p137), codename: Llamas in Pajamas
+    * Min threads: 5, max threads: 5
+    * Environment: development
+    * Listening on tcp://localhost:3000
+    Use Ctrl-C to stop
+
     ```
-    [http://localhost:3000](http://localhost:3000)
+
+* [Heroku Deployment](https://vast-beach-02155.herokuapp.com/), for production

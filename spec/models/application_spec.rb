@@ -25,9 +25,8 @@ RSpec.describe Application, type: :model do
         applicant_zipcode: '80401',
         applicant_description: 'I am a good guy',
         status: 'In Progress')
-      allow(Date).to receive(:today).and_return('2021-07-18')
 
-      expect(application.last_updated).to eq(Date.today)
+      expect(application.last_updated).to eq(application.updated_at.strftime("%Y-%m-%d"))
     end
     it 'can return #full_address' do
       application = Application.create!(
