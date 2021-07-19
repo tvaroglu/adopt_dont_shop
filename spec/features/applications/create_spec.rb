@@ -110,15 +110,14 @@ RSpec.describe 'the new application form' do
         fill_in 'City:', with: application.applicant_city
         fill_in 'State:', with: application.applicant_state
         fill_in 'Zip Code:', with: application.applicant_zipcode
-        fill_in 'Why you would make a good home for this pet:', with: application.applicant_description
         click_button 'Save'
 
         expect(current_path).to eq("/admin/applications/#{application.id.to_i + 1}")
 
-        expect(page).to have_content(application.applicant_fullname)
-        expect(page).to have_content(application.full_address)
-        expect(page).to have_content(application.applicant_description)
-        expect(page).to have_content(application.status)
+        expect(page).to have_content("Application: #{application.last_updated}")
+        expect(page).to have_content("Applicant Name: #{application.applicant_fullname}")
+        expect(page).to have_content("Applicant Address: #{application.full_address}")
+        expect(page).to have_content("Application Status: #{application.status}")
       end
     end
     context 'with invalid data' do
@@ -174,12 +173,11 @@ RSpec.describe 'the new application form' do
         fill_in 'City:', with: ''
         fill_in 'State:', with: ''
         fill_in 'Zip Code:', with: ''
-        fill_in 'Why you would make a good home for this pet:', with: ''
         click_button 'Save'
 
         expect(current_path).to eq('/admin/applications/new')
 
-        expect(page).to have_content("Error: Applicant fullname can't be blank, Applicant address can't be blank, Applicant city can't be blank, Applicant state can't be blank, Applicant zipcode can't be blank, Applicant description can't be blank")
+        expect(page).to have_content("Error: Applicant fullname can't be blank, Applicant address can't be blank, Applicant city can't be blank, Applicant state can't be blank, Applicant zipcode can't be blank")
       end
     end
 

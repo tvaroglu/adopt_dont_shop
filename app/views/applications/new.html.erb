@@ -16,10 +16,8 @@
     <br><br>
     <%= f.label :applicant_zipcode, "Zip Code:" %>
     <%= f.text_field :applicant_zipcode %>
-    <br><br>
-    <%= f.label :applicant_description, "Why you would make a good home for this pet:" %>
-    <%= f.text_field :applicant_description %>
     <br><br><br>
+    <%= f.hidden_field :applicant_description, value: '' %>
     <%= f.hidden_field :status, value: 'In Progress' %>
     <%= f.submit %>
   <% end %>

@@ -52,10 +52,10 @@ RSpec.describe 'the application show' do
     # save_and_open_page
 
     expect(page).to have_content("Application: #{application.last_updated}")
-    expect(page).to have_content("Name: #{application.applicant_fullname}")
-    expect(page).to have_content("Address: #{application.full_address}")
-    expect(page).to have_content("Description: #{application.applicant_description}")
-    expect(page).to have_content("Status: #{application.status}")
+    expect(page).to have_content("Applicant Name: #{application.applicant_fullname}")
+    expect(page).to have_content("Applicant Address: #{application.full_address}")
+    expect(page).to have_content("Application Status: #{application.status}")
+    expect(page).to_not have_content("Applicant Description: #{application.applicant_description}")
 
     expect(page).to have_link(shelter.pets.all[0].name)
     expect(page).to have_link(shelter.pets.all[1].name)
@@ -108,16 +108,16 @@ RSpec.describe 'the application show' do
     expect(current_path).to eq("/pets/#{shelter.pets.all[0].id}")
   end
 
-# As a visitor
-  # When I visit an application's show page
-  # And that application has not been submitted,
-  # Then I see a section on the page to "Add a Pet to this Application"
-  # In that section I see an input where I can search for Pets by name
-  # When I fill in this field with a Pet's name
-  # And I click submit,
-  # Then I am taken back to the application show page
-  # And under the search bar I see any Pet whose name matches my search
-  it "can add pets to an unsubmitted application" do
+  # As a visitor
+    # When I visit an application's show page
+    # And that application has not been submitted,
+    # Then I see a section on the page to "Add a Pet to this Application"
+    # In that section I see an input where I can search for Pets by name
+    # When I fill in this field with a Pet's name
+    # And I click submit,
+    # Then I am taken back to the application show page
+    # And under the search bar I see any Pet whose name matches my search
+  it "can add pets to an unsubmitted application via case-insensitive and/or partial search" do
     shelter = Shelter.create!(
       name: 'Aurora Shelter',
       address: '123 Main St.',
@@ -161,20 +161,14 @@ RSpec.describe 'the application show' do
     expect(page).to_not have_link(shelter.pets.all[1].name)
     expect(page).to_not have_link(shelter.pets.all[2].name)
 
-    fill_in 'Pet Name:', with: shelter.pets.all[0].name
+    fill_in 'Pet Name:', with: shelter.pets.all[0].name[1..3].upcase
     click_on('Search Pets')
 
     expect(current_path).to eq("/admin/applications/#{application.id}/search")
+
     click_on("Add #{shelter.pets.all[0].name}")
 
     expect(current_path).to eq("/admin/applications/#{application.id}")
-
-    expect(page).to have_content("Application: #{application.last_updated}")
-    expect(page).to have_content("Name: #{application.applicant_fullname}")
-    expect(page).to have_content("Address: #{application.full_address}")
-    expect(page).to have_content("Description: #{application.applicant_description}")
-    expect(page).to have_content("Status: #{application.status}")
-
     expect(page).to have_link(shelter.pets.all[0].name)
     expect(page).to_not have_link(shelter.pets.all[1].name)
     expect(page).to_not have_link(shelter.pets.all[2].name)
@@ -226,4 +220,81 @@ RSpec.describe 'the application show' do
     expect(page).to have_link(shelter.pets.all[2].name)
     expect(page).to_not have_content('Add Pets to Application')
   end
+
+  # As a visitor
+    # When I visit an application's show page
+    # And I have added one or more pets to the application
+    # Then I see a section to submit my application
+    # And in that section I see an input to enter why I would make a good owner for these pet(s)
+    # When I fill in that input
+    # And I click a button to submit this application
+    # Then I am taken back to the application's show page
+    # And I see an indicator that the application is "Pending"
+    # And I see all the pets that I want to adopt
+    # And I do not see a section to add more pets to this application
+  it "can submit an application only after pets have been added" do
+    shelter = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '123 Main St.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
+
+    shelter.pets.create!(
+      name: 'Mr. Pirate',
+      breed: 'Tuxedo Shorthair',
+      age: 5,
+      adoptable: true)
+    shelter.pets.create!(
+      name: 'Clawdia',
+      breed: 'Exotic Shorthair',
+      age: 3,
+      adoptable: true)
+    shelter.pets.create!(
+      name: 'Ann',
+      breed: 'Ragdoll',
+      age: 3,
+      adoptable: false)
+
+    application = Application.create!(
+      applicant_fullname: 'John Smith',
+      applicant_address: '1200 3rd St.',
+      applicant_city: 'Golden',
+      applicant_state: 'CO',
+      applicant_zipcode: '80401',
+      applicant_description: 'I am a good guy',
+      status: 'In Progress')
+
+    visit "/admin/applications/#{application.id}"
+    # save_and_open_page
+
+    expect(page).to_not have_button('Submit Application')
+    expect(page).to_not have_link(shelter.pets.all[0].name)
+    expect(page).to_not have_link(shelter.pets.all[1].name)
+    expect(page).to_not have_link(shelter.pets.all[2].name)
+
+    shelter.pets.all.each do |pet|
+      application.pets << pet
+    end
+
+    visit "/admin/applications/#{application.id}"
+    # save_and_open_page
+
+    expect(page).to have_link(shelter.pets.all[0].name)
+    expect(page).to have_link(shelter.pets.all[1].name)
+    expect(page).to have_link(shelter.pets.all[2].name)
+    expect(page).to have_button('Submit Application')
+
+    fill_in 'Why you would make a good home for this pet:', with: application.applicant_description
+    click_on('Submit Application')
+
+    expect(current_path).to eq("/admin/applications/#{application.id}")
+    visit "/admin/applications/#{application.id}"
+    # save_and_open_page
+    expect(page).to have_content("Application Status: Pending")
+    expect(page).to have_content("Applicant Description: #{application.applicant_description}")
+  end
+
 end

@@ -2,6 +2,9 @@ class ApplicationsController < ApplicationController
 
   def show
     @application = Application.find(params[:id])
+    if !@application.has_pets?
+      @application.update(status: 'In Progress')
+    end
     @pets = @application.pets.all
   end
 
@@ -30,14 +33,15 @@ class ApplicationsController < ApplicationController
     redirect_to "/admin/applications/#{@application.id}"
   end
 
-  private
-  def application_params
-    params.permit(:id, :applicant_fullname, :applicant_address, :applicant_city, :applicant_state, :applicant_zipcode, :applicant_description, :status)
+  def submit
+    @application = Application.find(params[:id])
+    @application.update(applicant_description: params[:applicant_description], status: 'Pending')
+    redirect_to "/admin/applications/#{@application.id}"
   end
 
   private
-  def pet_params
-    params.permit(:id, :name, :age, :breed, :adoptable, :shelter_id)
+  def application_params
+    params.permit(:id, :applicant_fullname, :applicant_address, :applicant_city, :applicant_state, :applicant_zipcode, :applicant_description, :status)
   end
 
 end

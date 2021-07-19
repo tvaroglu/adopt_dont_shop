@@ -21,9 +21,10 @@ Rails.application.routes.draw do
 
   get '/admin/applications/new', to: 'applications#new'
   post '/admin/applications', to: 'applications#create'
+  get '/admin/applications/:id', to: 'applications#show'
   get '/admin/applications/:id/search', to: 'applications#search'
   post '/admin/applications/:id/add_pet', to: 'applications#add_pets'
-  get '/admin/applications/:id', to: 'applications#show'
+  patch '/admin/applications/:id/submit', to: 'applications#submit'
 
 
 

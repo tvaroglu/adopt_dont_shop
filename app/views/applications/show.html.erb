@@ -1,17 +1,19 @@
 <div style="padding-left: 20px;">
   <h3><%= "Application: #{@application.last_updated}" %></h3>
-    <h6><%= "Name: #{@application.applicant_fullname}" %></h6>
-    <h6><%= "Address: #{@application.full_address}" %></h6>
-    <h6><%= "Description: #{@application.applicant_description}" %></h6>
-    <h6><%= "Status: #{@application.status}" %></h6>
-    <br><br>
+    <h6><%= "Applicant Name: #{@application.applicant_fullname}" %></h6>
+    <h6><%= "Applicant Address: #{@application.full_address}" %></h6>
+    <h6><%= "Application Status: #{@application.status}" %></h6>
+    <% if @application.status == 'Pending' %>
+      <h6><%= "Applicant Description: #{@application.applicant_description}" %></h6>
+    <% end %>
+    <br>
     <h4><em>Pets Applied For:</em></h4>
     <% @pets.each do |pet| %>
       <div id="pet-<%= pet.id %>">
         <p><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></p>
       </div>
     <% end %>
-    <br><br>
+    <br>
     <% if @application.status != 'Pending' %>
       <h6><em>Add Pets to Application:</em></h6>
       <%= form_with url: "/admin/applications/#{@application.id}/search", method: :get, local: true do |f| %>
@@ -19,6 +21,15 @@
         <%= f.text_field :search %>
         <%= f.submit "Search Pets" %>
       <% end %>
-      <br>
+      <br><br>
+    <% end %>
+    <% if @application.has_pets? && @application.status != 'Pending' %>
+      <%= form_with url: "/admin/applications/#{@application.id}/submit", method: :patch, local: true do |f| %>
+        <%= f.label :applicant_description, "Why you would make a good home for this pet:" %>
+        <%= f.text_field :applicant_description %>
+        <br>
+        <%= f.submit "Submit Application" %>
+      <% end %>
+      <br><br><br>
     <% end %>
 </div>
