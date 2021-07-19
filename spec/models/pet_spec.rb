@@ -40,5 +40,24 @@ RSpec.describe Pet, type: :model do
         expect(@pet_3.shelter_name).to eq(@shelter_1.name)
       end
     end
+    describe '.on_current_application?' do
+      it 'can determine if a pet is already on an application' do
+        application = Application.create!(
+          applicant_fullname: 'John Smith',
+          applicant_address: '1200 3rd St.',
+          applicant_city: 'Golden',
+          applicant_state: 'CO',
+          applicant_zipcode: '80401',
+          applicant_description: 'I am a good guy',
+          status: 'In Progress')
+
+        expect(@pet_1.on_current_application?(application.id)).to be false
+
+        application.pets << @pet_1
+
+        expect(@pet_1.on_current_application?(application.id)).to be true
+      end
+    end
   end
+
 end
