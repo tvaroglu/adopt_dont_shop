@@ -6,7 +6,8 @@ class SheltersController < ApplicationController
     elsif params[:search].present?
       @shelters = Shelter.search(params[:search])
     else
-      @shelters = Shelter.order_by_recently_created
+      # @shelters = Shelter.order_by_recently_created
+      @shelters = Shelter.order_by_name_desc
     end
   end
 
@@ -23,6 +24,7 @@ class SheltersController < ApplicationController
 
   def show
     @shelter = Shelter.find(params[:id])
+    @full_address = @shelter.shelter_info(params[:id])
   end
 
   def new
@@ -54,7 +56,7 @@ class SheltersController < ApplicationController
 
   def destroy
     shelter = Shelter.find(params[:id])
-    shelter.pets.destroy_all
+    # shelter.pets.destroy_all
     shelter.destroy
     redirect_to '/admin/shelters'
   end
