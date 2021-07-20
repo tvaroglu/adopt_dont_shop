@@ -5,7 +5,7 @@ class Application < ApplicationRecord
   validates :applicant_state, presence: true
   validates :applicant_zipcode, presence: true
 
-  has_many :pet_applications, dependent: :destroy
+  has_many :pet_applications, dependent: :delete_all
   has_many :pets, through: :pet_applications
 
   def full_address

@@ -1,0 +1,7 @@
+<%= form_with url: "/admin/applications/#{@application.id}/submit", method: :patch, local: true do |f| %>
+  <%= f.label :applicant_description, "Why you would make a good home for this pet:" %>
+  <%= f.text_field :applicant_description %>
+  <br>
+  <%= f.submit "Submit Application" %>
+  <br><br><br>
+<% end %>
