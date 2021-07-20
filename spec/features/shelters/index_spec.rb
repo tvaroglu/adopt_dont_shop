@@ -10,23 +10,19 @@ RSpec.describe 'the shelters index' do
     @shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
   end
 
-  it 'lists all the shelter names' do
+  # As a visitor
+    # When I visit the admin shelter index ('/admin/shelters')
+    # Then I see all Shelters in the system listed in reverse alphabetical order by name
+  it 'lists the shelters in reverse alphabetical order by name' do
     visit "/admin/shelters"
+    # save_and_open_page
 
-    expect(page).to have_content(@shelter_1.name)
-    expect(page).to have_content(@shelter_2.name)
-    expect(page).to have_content(@shelter_3.name)
-  end
+    first = find("#shelter-#{@shelter_2.id}")
+    second = find("#shelter-#{@shelter_3.id}")
+    third = find("#shelter-#{@shelter_1.id}")
 
-  it 'lists the shelters by most recently created first' do
-    visit "/admin/shelters"
-
-    oldest = find("#shelter-#{@shelter_1.id}")
-    mid = find("#shelter-#{@shelter_2.id}")
-    newest = find("#shelter-#{@shelter_3.id}")
-
-    expect(newest).to appear_before(mid)
-    expect(mid).to appear_before(oldest)
+    expect(first).to appear_before(second)
+    expect(second).to appear_before(third)
 
     within "#shelter-#{@shelter_1.id}" do
       expect(page).to have_content("Created at: #{@shelter_1.created_at}")
@@ -39,6 +35,14 @@ RSpec.describe 'the shelters index' do
     within "#shelter-#{@shelter_3.id}" do
       expect(page).to have_content("Created at: #{@shelter_3.created_at}")
     end
+  end
+
+  it 'lists all the shelter names' do
+    visit "/admin/shelters"
+
+    expect(page).to have_content(@shelter_1.name)
+    expect(page).to have_content(@shelter_2.name)
+    expect(page).to have_content(@shelter_3.name)
   end
 
   it 'has a link to sort shelters by the number of pets they have' do

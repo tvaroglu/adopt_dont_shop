@@ -3,7 +3,11 @@ class Shelter < ApplicationRecord
   validates :rank, presence: true, numericality: true
   validates :city, presence: true
 
-  has_many :pets#, dependent: :destroy
+  has_many :pets, dependent: :destroy
+
+  def self.order_by_name_desc
+    find_by_sql("SELECT * FROM shelters ORDER BY name desc")
+  end
 
   def self.order_by_recently_created
     order(created_at: :desc)
