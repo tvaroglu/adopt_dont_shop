@@ -23,6 +23,47 @@ RSpec.describe 'the shelter show' do
     expect(page).to have_content("Address: #{full_address}")
   end
 
+  # As a visitor
+  #   When I visit an admin shelter show page
+  #   Then I see a section for statistics
+  #   And in that section I see the average age of all adoptable pets for that shelter
+  # As a visitor
+    # When I visit an admin shelter show page
+    # Then I see a section for statistics
+    # And in that section I see the number of pets at that shelter that are adoptable
+  it "shows a statistics section with the shelter's average pet age and number of adoptable pets" do
+    shelter = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '1200 Cedar Ct.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
+    pet_1 = shelter.pets.create!(
+      name: 'Mr. Pirate',
+      breed: 'Tuxedo Shorthair',
+      age: 5,
+      adoptable: false)
+    pet_2 = shelter.pets.create!(
+      name: 'Clawdia',
+      breed: 'Exotic Shorthair',
+      age: 4,
+      adoptable: true)
+    pet_3 = shelter.pets.create!(
+      name: 'Lucille Bald',
+      breed: 'Sphynx',
+      age: 9,
+      adoptable: true)
+
+    visit "/admin/shelters/#{shelter.id}"
+    # save_and_open_page
+
+    expect(page).to have_content("Statistics:")
+    expect(page).to have_content("Average Pet Age: #{(pet_1.age + pet_2.age + pet_3.age) / 3}")
+    expect(page).to have_content("Number of Adoptable Pets: 2")
+  end
+
   it "shows the number of pets associated with the shelter" do
     shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
     shelter.pets.create(name: 'garfield', breed: 'shorthair', adoptable: true, age: 1)

@@ -26,6 +26,10 @@ class Shelter < ApplicationRecord
     ).first
   end
 
+  def average_pet_age
+    pets.average(:age)
+  end
+
   def pet_count
     pets.count
   end

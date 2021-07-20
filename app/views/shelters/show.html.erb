@@ -1,8 +1,12 @@
 <div style="padding-left: 20px;">
   <h1><%= @shelter.name %></h1>
   <p><strong>Address:</strong> <%= "#{@full_address.address}, #{@full_address.city}, #{@full_address.state} #{@full_address.zipcode}" %></p>
+  <br>
 
+  <h3><em>Statistics:</em></h3>
   <p class="pet-count"><strong>Total Pets at <%= @shelter.name %>:</strong> <%= @shelter.pet_count %></p>
+  <p><strong>Number of Adoptable Pets: </strong><%= @shelter.adoptable_pets.count %></p>
+  <p><strong>Average Pet Age:</strong> <%= @shelter.average_pet_age %></p>
   <div style="float:left; padding-right:5px;">
     <%= button_to "View All Pets At: #{@shelter.name}", "/admin/shelters/#{@shelter.id}/pets", method: :get %>
   </div>
