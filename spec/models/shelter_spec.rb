@@ -89,7 +89,7 @@ RSpec.describe Shelter, type: :model do
     end
 
     describe '#pending_applications' do
-      it 'can returns the pending applications for all pets at a given shelter' do
+      it 'can return shelters with pending applications' do
         application_1 = Application.create!(
           applicant_fullname: 'John Smith',
           applicant_address: '1200 3rd St.',
@@ -105,7 +105,7 @@ RSpec.describe Shelter, type: :model do
           applicant_state: 'CO',
           applicant_zipcode: '80401',
           applicant_description: 'I want a kitty!',
-          status: 'In Progress')
+          status: 'Pending')
 
         shelter_1 = Shelter.create!(
           name: 'Aurora Shelter',
@@ -120,21 +120,15 @@ RSpec.describe Shelter, type: :model do
           breed: 'Tuxedo Shorthair',
           age: 5,
           adoptable: true)
-        shelter_2 = Shelter.create!(
-          name: 'Fancy Pets of Colorado',
-          address: '8300 Colfax Ave.',
-          city: 'Denver',
-          state: 'CO',
-          zipcode: '80014',
-          foster_program: true,
-          rank: 10)
 
-        application_1.pets << shelter_1.pets.all.first
-        application_2.pets << shelter_1.pets.all.first
+        application_1.pets << shelter_1.pets.all.last
+        application_2.pets << shelter_1.pets.all.last
 
         expected = Shelter.pending_applications
+
         expect(expected.length).to eq(1)
-        expect(expected.first.id).to eq(shelter_1.id)
+        expect(expected.first.name).to eq(shelter_1.name)
+        expect(expected.last.name).to eq(shelter_1.name)
       end
     end
   end

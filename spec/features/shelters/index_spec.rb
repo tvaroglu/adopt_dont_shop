@@ -59,24 +59,88 @@ RSpec.describe 'the shelters index' do
     expect(second).to appear_before(third)
 
     within "#shelter-#{@shelter_1.id}" do
+      expect(page).to have_link(@shelter_1.name)
       expect(page).to have_content("Created at: #{@shelter_1.created_at}")
     end
 
     within "#shelter-#{@shelter_2.id}" do
+      expect(page).to have_link(@shelter_2.name)
       expect(page).to have_content("Created at: #{@shelter_2.created_at}")
     end
 
     within "#shelter-#{@shelter_3.id}" do
+      expect(page).to have_link(@shelter_3.name)
       expect(page).to have_content("Created at: #{@shelter_3.created_at}")
     end
   end
 
-  it 'lists all the shelter names' do
-    visit "/admin/shelters"
+  # As a visitor
+    # When I visit the admin shelter index ('/admin/shelters')
+    # Then I see a section for "Shelter's with Pending Applications"
+    # And in this section I see the name of every shelter that has a pending application
+  describe 'shelters with pending applications' do
+    it "doesn't display the section if no applications are pending" do
+      visit "/admin/shelters"
+      # save_and_open_page
 
-    expect(page).to have_content(@shelter_1.name)
-    expect(page).to have_content(@shelter_2.name)
-    expect(page).to have_content(@shelter_3.name)
+      application_1 = Application.create!(
+        applicant_fullname: 'John Smith',
+        applicant_address: '1200 3rd St.',
+        applicant_city: 'Golden',
+        applicant_state: 'CO',
+        applicant_zipcode: '80401',
+        applicant_description: 'I am a good guy',
+        status: 'In Progress')
+      application_2 = Application.create!(
+        applicant_fullname: 'Jane Doe',
+        applicant_address: '500 Poplar Ave.',
+        applicant_city: 'Wheat Ridge',
+        applicant_state: 'CO',
+        applicant_zipcode: '80401',
+        applicant_description: 'I want a kitty!',
+        status: 'In Progress')
+
+      application_1.pets << @shelter_1.pets.all.first
+      application_2.pets << @shelter_1.pets.all.first
+
+      within "#pending-apps" do
+        expect(page).to_not have_content("Shelters With Pending Applications:")
+        expect(page).to_not have_link(@shelter_1.name)
+        expect(page).to_not have_link(@shelter_2.name)
+        expect(page).to_not have_link(@shelter_3.name)
+      end
+    end
+    it 'displays the section if applications are pending' do
+      application_1 = Application.create!(
+        applicant_fullname: 'John Smith',
+        applicant_address: '1200 3rd St.',
+        applicant_city: 'Golden',
+        applicant_state: 'CO',
+        applicant_zipcode: '80401',
+        applicant_description: 'I am a good guy',
+        status: 'Pending')
+      application_2 = Application.create!(
+        applicant_fullname: 'Jane Doe',
+        applicant_address: '500 Poplar Ave.',
+        applicant_city: 'Wheat Ridge',
+        applicant_state: 'CO',
+        applicant_zipcode: '80401',
+        applicant_description: 'I want a kitty!',
+        status: 'Pending')
+
+      application_1.pets << @shelter_1.pets.all.last
+      application_2.pets << @shelter_1.pets.all.last
+
+      visit "/admin/shelters"
+      # save_and_open_page
+
+      within "#pending-apps" do
+        expect(page).to have_content("Shelters With Pending Applications:")
+        expect(page).to have_link(@shelter_1.name)
+        expect(page).to_not have_link(@shelter_2.name)
+        expect(page).to_not have_link(@shelter_3.name)
+      end
+    end
   end
 
   it 'has a link to sort shelters by the number of pets they have' do
@@ -90,7 +154,7 @@ RSpec.describe 'the shelters index' do
     expect(@shelter_3.name).to appear_before(@shelter_2.name)
   end
 
-  it 'has a link to update each shelter' do
+  it 'has a button to update each shelter' do
     visit "/admin/shelters"
 
     within "#shelter-#{@shelter_1.id}" do
@@ -109,7 +173,7 @@ RSpec.describe 'the shelters index' do
     expect(page).to have_current_path("/admin/shelters/#{@shelter_1.id}/edit")
   end
 
-  it 'has a link to delete each shelter' do
+  it 'has a button to delete each shelter' do
     visit "/admin/shelters"
 
     within "#shelter-#{@shelter_1.id}" do
