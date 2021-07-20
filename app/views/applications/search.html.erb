@@ -1,4 +1,7 @@
 <div style="padding-left: 20px;">
+  <br>
+  <%= button_to "Return to Application", "/admin/applications/#{@application.id}", method: :get %>
+  <br>
   <h1><em>Add Pets to Application:</em></h1>
   <br><br>
   <% @pets.each do |pet| %>

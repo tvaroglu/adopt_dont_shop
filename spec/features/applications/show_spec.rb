@@ -165,6 +165,7 @@ RSpec.describe 'the application show' do
     click_on('Search Pets')
 
     expect(current_path).to eq("/admin/applications/#{application.id}/search")
+    expect(page).to have_button("Return to Application")
 
     click_on("Add #{shelter.pets.all[0].name}")
 
