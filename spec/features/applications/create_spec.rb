@@ -177,7 +177,10 @@ RSpec.describe 'the new application form' do
 
         expect(current_path).to eq('/admin/applications/new')
 
-        expect(page).to have_content("Error: Applicant fullname can't be blank, Applicant address can't be blank, Applicant city can't be blank, Applicant state can't be blank, Applicant zipcode can't be blank")
+        within "div.col-lg.alert.alert-warning" do
+          expect(page).to have_content("Error: Applicant fullname can't be blank, Applicant address can't be blank, Applicant city can't be blank, Applicant state can't be blank, Applicant zipcode can't be blank")
+        end
+
       end
     end
 

@@ -20,6 +20,12 @@ class Shelter < ApplicationRecord
       .order("pets_count DESC")
   end
 
+  def self.pending_applications
+    # pets.applications.where(status: 'Pending')
+    self.find_by_sql("SELECT * FROM shelters INNER JOIN pets ON pets.shelter_id = shelters.id INNER JOIN pet_applications ON pet_applications.pet_id = pets.id INNER JOIN applications ON pet_applications.application_id = applications.id WHERE applications.status = 'Pending'")
+  end
+
+
   def shelter_info(shelter_id)
     Shelter.find_by_sql(
       "SELECT name, address, city, state, zipcode FROM shelters WHERE id = #{shelter_id}"
@@ -45,4 +51,5 @@ class Shelter < ApplicationRecord
   def shelter_pets_filtered_by_age(age_filter)
     adoptable_pets.where('age >= ?', age_filter)
   end
+
 end
