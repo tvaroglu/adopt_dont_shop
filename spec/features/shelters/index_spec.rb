@@ -2,12 +2,46 @@ require 'rails_helper'
 
 RSpec.describe 'the shelters index' do
   before(:each) do
-    @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
-    @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
-    @shelter_3 = Shelter.create(name: 'Fancy pets of Colorado', city: 'Denver, CO', foster_program: true, rank: 10)
-    @shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: true)
-    @shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
-    @shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
+    @shelter_1 = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '1200 Cedar Ct.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
+    @shelter_2 = Shelter.create!(
+      name: 'RGV Animal Shelter',
+      address: '1900 N Stemmons Fwy.',
+      city: 'Dallas',
+      state: 'TX',
+      zipcode: '75001',
+      foster_program: false,
+      rank: 5)
+    @shelter_3 = Shelter.create!(
+      name: 'Fancy Pets of Colorado',
+      address: '8300 Colfax Ave.',
+      city: 'Denver',
+      state: 'CO',
+      zipcode: '80014',
+      foster_program: true,
+      rank: 10)
+
+    @shelter_1.pets.create!(
+      name: 'Mr. Pirate',
+      breed: 'Tuxedo Shorthair',
+      age: 5,
+      adoptable: false)
+    @shelter_1.pets.create!(
+      name: 'Clawdia',
+      breed: 'Exotic Shorthair',
+      age: 3,
+      adoptable: true)
+    @shelter_3.pets.create!(
+      name: 'Lucille Bald',
+      breed: 'Sphynx',
+      age: 8,
+      adoptable: true)
   end
 
   # As a visitor

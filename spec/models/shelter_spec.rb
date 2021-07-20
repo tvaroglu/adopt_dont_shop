@@ -13,14 +13,51 @@ RSpec.describe Shelter, type: :model do
   end
 
   before(:each) do
-    @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
-    @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
-    @shelter_3 = Shelter.create(name: 'Fancy pets of Colorado', city: 'Denver, CO', foster_program: true, rank: 10)
+    @shelter_1 = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '1200 Cedar Ct.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
+    @shelter_2 = Shelter.create!(
+      name: 'RGV Animal Shelter',
+      address: '1900 N Stemmons Fwy.',
+      city: 'Dallas',
+      state: 'TX',
+      zipcode: '75001',
+      foster_program: false,
+      rank: 5)
+    @shelter_3 = Shelter.create!(
+      name: 'Fancy Pets of Colorado',
+      address: '8300 Colfax Ave.',
+      city: 'Denver',
+      state: 'CO',
+      zipcode: '80014',
+      foster_program: true,
+      rank: 10)
 
-    @pet_1 = @shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: false)
-    @pet_2 = @shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
-    @pet_3 = @shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
-    @pet_4 = @shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 5, adoptable: true)
+    @pet_1 = @shelter_1.pets.create!(
+      name: 'Mr. Pirate',
+      breed: 'Tuxedo Shorthair',
+      age: 5,
+      adoptable: false)
+    @pet_2 = @shelter_1.pets.create!(
+      name: 'Clawdia',
+      breed: 'Exotic Shorthair',
+      age: 3,
+      adoptable: true)
+    @pet_3 = @shelter_3.pets.create!(
+      name: 'Lucille Bald',
+      breed: 'Sphynx',
+      age: 8,
+      adoptable: true)
+    @pet_4 = @shelter_1.pets.create!(
+      name: 'Ann',
+      breed: 'Ragdoll',
+      age: 5,
+      adoptable: true)
   end
 
   describe 'class methods' do
@@ -76,5 +113,18 @@ RSpec.describe Shelter, type: :model do
         expect(@shelter_1.pet_count).to eq(3)
       end
     end
+
+    describe '.shelter_info' do
+      it 'returns the name and address of a given shelter' do
+        expected = @shelter_1.shelter_info(@shelter_1.id)
+
+        expect(expected.name).to eq(@shelter_1.name)
+        expect(expected.address).to eq(@shelter_1.address)
+        expect(expected.city).to eq(@shelter_1.city)
+        expect(expected.state).to eq(@shelter_1.state)
+        expect(expected.zipcode).to eq(@shelter_1.zipcode)
+      end
+    end
   end
+
 end

@@ -24,6 +24,7 @@ class SheltersController < ApplicationController
 
   def show
     @shelter = Shelter.find(params[:id])
+    @full_address = @shelter.shelter_info(params[:id])
   end
 
   def new

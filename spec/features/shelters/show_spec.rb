@@ -1,14 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe 'the shelter show' do
-  it "shows the shelter and all it's attributes" do
-    shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+  # As a visitor
+  #   When I visit an admin shelter show page
+  #   Then I see that shelter's name and full address
+  it "shows the shelter name it's full address info" do
+    shelter = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '1200 Cedar Ct.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
 
     visit "/admin/shelters/#{shelter.id}"
+    # save_and_open_page
+
+    full_address = "#{shelter.address}, #{shelter.city}, #{shelter.state} #{shelter.zipcode}"
 
     expect(page).to have_content(shelter.name)
-    expect(page).to have_content(shelter.rank)
-    expect(page).to have_content(shelter.city)
+    expect(page).to have_content("Address: #{full_address}")
   end
 
   it "shows the number of pets associated with the shelter" do
@@ -39,7 +51,7 @@ RSpec.describe 'the shelter show' do
     visit "/admin/shelters/#{shelter.id}"
 
     expect(page).to have_button("View All Pets At: #{shelter.name}")
-    click_on("All Pets At: #{shelter.name}")
+    click_on("View All Pets At: #{shelter.name}")
 
     expect(page).to have_current_path("/admin/shelters/#{shelter.id}/pets")
   end

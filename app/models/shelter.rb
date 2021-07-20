@@ -20,6 +20,12 @@ class Shelter < ApplicationRecord
       .order("pets_count DESC")
   end
 
+  def shelter_info(shelter_id)
+    Shelter.find_by_sql(
+      "SELECT name, address, city, state, zipcode FROM shelters WHERE id = #{shelter_id}"
+    ).first
+  end
+
   def pet_count
     pets.count
   end
