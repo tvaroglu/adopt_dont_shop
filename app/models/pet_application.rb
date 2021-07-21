@@ -16,7 +16,6 @@ class PetApplication < ApplicationRecord
     self.select(:status)
     .where(pet_id: pet_id)
     .where(application_id: application_id)
-    # .where.not(status: 'Approved', status: 'Rejected')
     .first
   end
 
