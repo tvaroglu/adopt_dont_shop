@@ -1,0 +1,12 @@
+<div style="padding-left: 20px;">
+  <h1>All Applications</h1>
+  <br>
+  <% @applications.each do |application| %>
+    <div id="application-<%= application.id %>">
+      <h3><%= link_to "Application: #{application.applicant_fullname}", "/admin/applications/#{application.id}" %></h3>
+      <p>Created at: <%= application.created_at %></p>
+      <p>Current Status: <%= application.status %></p>
+    </div>
+    <br>
+  <% end %>
+</div>

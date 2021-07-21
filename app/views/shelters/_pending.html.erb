@@ -1,0 +1,4 @@
+<h2><em>Shelters With Pending Applications:</em></h2>
+<% @shelters_pending_app_approvals.each do |shelter| %>
+  <h3><%= link_to "#{shelter.name}", "/admin/shelters/#{shelter.id}" %></h3>
+<% end %>
