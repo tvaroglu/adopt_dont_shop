@@ -87,6 +87,63 @@ RSpec.describe Shelter, type: :model do
         expect(expected).to eq([@shelter_2, @shelter_3, @shelter_1])
       end
     end
+
+    describe '#pending_applications' do
+      it 'can return shelters with pending applications in alphabetical order' do
+        application_1 = Application.create!(
+          applicant_fullname: 'John Smith',
+          applicant_address: '1200 3rd St.',
+          applicant_city: 'Golden',
+          applicant_state: 'CO',
+          applicant_zipcode: '80401',
+          applicant_description: 'I am a good guy',
+          status: 'Pending')
+        application_2 = Application.create!(
+          applicant_fullname: 'Jane Doe',
+          applicant_address: '500 Poplar Ave.',
+          applicant_city: 'Wheat Ridge',
+          applicant_state: 'CO',
+          applicant_zipcode: '80401',
+          applicant_description: 'I want a kitty!',
+          status: 'Pending')
+
+        shelter_1 = Shelter.create!(
+          name: 'Boulder Shelter',
+          address: '45 Broadway Ave',
+          city: 'Boulder',
+          state: 'CO',
+          zipcode: '80302',
+          foster_program: false,
+          rank: 9)
+        shelter_2 = Shelter.create!(
+          name: 'Aurora Shelter',
+          address: '123 Main St.',
+          city: 'Aurora',
+          state: 'CO',
+          zipcode: '80010',
+          foster_program: false,
+          rank: 9)
+        shelter_1.pets.create!(
+          name: 'Mr. Pirate',
+          breed: 'Tuxedo Shorthair',
+          age: 5,
+          adoptable: true)
+        shelter_2.pets.create!(
+          name: 'Macaroni',
+          breed: 'Scottish Fold',
+          age: 2,
+          adoptable: true)
+
+        application_1.pets << shelter_1.pets.all.first
+        application_2.pets << shelter_2.pets.all.first
+
+        expected = Shelter.pending_applications
+
+        expect(expected.length).to eq(2)
+        expect(expected.first.name).to eq(shelter_2.name)
+        expect(expected.last.name).to eq(shelter_1.name)
+      end
+    end
   end
 
   describe 'instance methods' do
