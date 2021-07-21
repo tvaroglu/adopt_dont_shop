@@ -264,4 +264,58 @@ RSpec.describe 'the application approval' do
     expect(page).to have_content("Application Status: Rejected")
   end
 
+  # As a visitor
+    # When I visit an admin application show page
+    # And I approve all pets for an application
+    # Then I am taken back to the admin application show page
+    # And I see the application's status has changed to "Approved"
+  it 'can approve an entire application by approving all pets' do
+    application = Application.create!(
+      applicant_fullname: 'John Smith',
+      applicant_address: '1200 3rd St.',
+      applicant_city: 'Golden',
+      applicant_state: 'CO',
+      applicant_zipcode: '80401',
+      applicant_description: 'I am a good guy',
+      status: 'Pending')
+
+    shelter = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '123 Main St.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
+    shelter.pets.create!(
+      name: 'Mr. Pirate',
+      breed: 'Tuxedo Shorthair',
+      age: 5,
+      adoptable: true)
+    shelter.pets.create!(
+      name: 'Macaroni',
+      breed: 'Scottish Fold',
+      age: 2,
+      adoptable: true)
+
+    application.pets << shelter.pets.all.first
+    application.pets << shelter.pets.all.last
+
+    PetApplication.update_application_status(application.id, application.pets.first.id, 'Pending Review')
+    PetApplication.update_application_status(application.id, application.pets.last.id, 'Pending Review')
+
+    visit "/admin/applications/#{application.id}"
+    # save_and_open_page
+
+    click_on("Approve #{application.pets.first.name}")
+    click_on("Approve #{application.pets.last.name}")
+
+    expect(current_path).to eq("/admin/applications/#{application.id}")
+
+    visit "/admin/applications/#{application.id}"
+    # save_and_open_page
+
+    expect(page).to have_content("Application Status: Approved")
+  end
+
 end
