@@ -386,4 +386,124 @@ RSpec.describe 'the application show' do
     end
   end
 
+# As a visitor
+  # When there are two applications in the system for the same pet
+  # When I visit the admin application show page for one of the applications
+  # And I approve or reject the pet for that application
+  # When I visit the other application's admin show page
+  # Then I do not see that the pet has been accepted or rejected for that application
+  # And instead I see buttons to approve or reject the pet for this specific application
+  it 'pet approval status on a pending application does not effect another application with the same pet' do
+    shelter = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '123 Main St.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
+
+    shelter.pets.create!(
+      name: 'Mr. Pirate',
+      breed: 'Tuxedo Shorthair',
+      age: 5,
+      adoptable: true)
+    shelter.pets.create!(
+      name: 'Clawdia',
+      breed: 'Exotic Shorthair',
+      age: 3,
+      adoptable: true)
+
+    application_1 = Application.create!(
+      applicant_fullname: 'John Smith',
+      applicant_address: '1200 3rd St.',
+      applicant_city: 'Golden',
+      applicant_state: 'CO',
+      applicant_zipcode: '80401',
+      applicant_description: 'I am a good guy',
+      status: 'Pending')
+    application_2 = Application.create!(
+      applicant_fullname: 'Jane Doe',
+      applicant_address: '500 Poplar Ave.',
+      applicant_city: 'Wheat Ridge',
+      applicant_state: 'CO',
+      applicant_zipcode: '80401',
+      applicant_description: 'I want a kitty!',
+      status: 'Pending')
+
+    shelter.pets.all.each do |pet|
+      application_1.pets << pet
+      application_2.pets << pet
+      PetApplication.update_application_status(application_1.id, pet.id, 'Pending Review')
+      PetApplication.update_application_status(application_2.id, pet.id, 'Pending Review')
+    end
+
+    visit "/admin/applications/#{application_1.id}"
+    # save_and_open_page
+
+    expect(page).to_not have_button('Submit Application')
+    expect(page).to have_content("Applicant Description: #{application_1.applicant_description}")
+    expect(page).to have_content("Admin Approval for Applicant: #{application_1.applicant_fullname}")
+
+    expect(page).to have_button("Approve #{application_1.pets.first.name}")
+    expect(page).to have_button("Reject #{application_1.pets.first.name}")
+    expect(page).to have_button("Approve #{application_1.pets.last.name}")
+    expect(page).to have_button("Reject #{application_1.pets.last.name}")
+
+    within "#pet-#{application_1.pets.first.id}" do
+      expect(page).to have_link("#{application_1.pets.first.name}")
+      expect(page).to have_content("Current Status: Pending Review")
+    end
+
+    within "#pet-#{application_1.pets.last.id}" do
+      expect(page).to have_link("#{application_1.pets.last.name}")
+      expect(page).to have_content("Current Status: Pending Review")
+    end
+
+    click_on("Approve #{application_1.pets.first.name}")
+    click_on("Reject #{application_1.pets.last.name}")
+
+    expect(current_path).to eq("/admin/applications/#{application_1.id}")
+
+    visit "/admin/applications/#{application_1.id}"
+    # save_and_open_page
+
+    expect(page).to_not have_button("Approve #{application_1.pets.first.name}")
+    expect(page).to_not have_button("Reject #{application_1.pets.first.name}")
+    expect(page).to_not have_button("Approve #{application_1.pets.last.name}")
+    expect(page).to_not have_button("Reject #{application_1.pets.last.name}")
+
+    within "#pet-#{application_1.pets.first.id}" do
+      expect(page).to have_link("#{application_1.pets.first.name}")
+      expect(page).to have_content("Current Status: Approved")
+    end
+
+    within "#pet-#{application_1.pets.last.id}" do
+      expect(page).to have_link("#{application_1.pets.last.name}")
+      expect(page).to have_content("Current Status: Rejected")
+    end
+
+    visit "/admin/applications/#{application_2.id}"
+    # save_and_open_page
+
+    expect(page).to_not have_button('Submit Application')
+    expect(page).to have_content("Applicant Description: #{application_2.applicant_description}")
+    expect(page).to have_content("Admin Approval for Applicant: #{application_2.applicant_fullname}")
+
+    expect(page).to have_button("Approve #{application_2.pets.first.name}")
+    expect(page).to have_button("Reject #{application_2.pets.first.name}")
+    expect(page).to have_button("Approve #{application_2.pets.last.name}")
+    expect(page).to have_button("Reject #{application_2.pets.last.name}")
+
+    within "#pet-#{application_2.pets.first.id}" do
+      expect(page).to have_link("#{application_2.pets.first.name}")
+      expect(page).to have_content("Current Status: Pending Review")
+    end
+
+    within "#pet-#{application_2.pets.last.id}" do
+      expect(page).to have_link("#{application_2.pets.last.name}")
+      expect(page).to have_content("Current Status: Pending Review")
+    end
+  end
+
 end
