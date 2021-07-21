@@ -337,7 +337,7 @@ RSpec.describe 'the application show' do
 
     shelter.pets.all.each do |pet|
       application.pets << pet
-      PetApplication.update_pet_approval_status(pet.id, 'Pending Review')
+      PetApplication.update_application_status(application.id, pet.id, 'Pending Review')
     end
 
     visit "/admin/applications/#{application.id}"
