@@ -205,9 +205,12 @@ For example, if I search for "fluff", my search would match pets with names "Flu
 ```
 
 ```
+[x] done
+
 SQL Only Story
 
 For this story, you should write your queries in raw sql. You can use the ActiveRecord find_by_sql method to execute raw sql queries: https://guides.rubyonrails.org/active_record_querying.html#finding-by-sql
+
 
 Admin Shelters Index
 
@@ -217,6 +220,8 @@ Then I see all Shelters in the system listed in reverse alphabetical order by na
 ```
 
 ```
+[x] done
+
 For this story, you should fully leverage ActiveRecord methods in your query.
 
 Shelters with Pending Applications
@@ -234,7 +239,7 @@ Pets on an application can either be accepted or rejected.
 For this set of stories, we will be making routes that begin with '/admin'. This is to indicate that only a user with special privileges should be able to accept or reject pets on an application. Normally, we would want to make sure that a user is logged into an admin account before being able complete any of this workflow, but we will not add any log in or authorization functionality to this project.
 
 ```
-[ ] done
+[x] done
 
 Approving a Pet for Adoption
 
@@ -248,7 +253,7 @@ And instead I see an indicator next to the pet that they have been approved
 ```
 
 ```
-[ ] done
+[x] done
 
 Rejecting a Pet for Adoption
 
@@ -262,6 +267,8 @@ And instead I see an indicator next to the pet that they have been rejected
 ```
 
 ```
+[x] done
+
 Approved/Rejected Pets on one Application do not affect other Applications
 
 As a visitor
@@ -303,6 +310,8 @@ And I see the application's status has changed to "Rejected"
 ```
 
 ```
+[ ] done
+
 Application Approval makes Pets not adoptable
 
 As a visitor
@@ -313,9 +322,9 @@ Then I see that those pets are no longer "adoptable"
 ```
 
 ```
-Pets can only have one approved application on them at any time
-
 [ ] done
+
+Pets can only have one approved application on them at any time
 
 As a visitor
 When a pet has an "Approved" application on them
@@ -331,6 +340,8 @@ And I do see a button to reject them
 These stories emphasize SQL and ActiveRecord concepts.
 
 ```
+[x] done
+
 SQL Only Story
 
 For this story, you should write your queries in raw sql. You can use the ActiveRecord find_by_sql method to execute raw sql queries: https://guides.rubyonrails.org/active_record_querying.html#finding-by-sql
@@ -349,6 +360,8 @@ NOTE: Your query should only return the necessary data to complete the story
 For the following stories, you should fully leverage ActiveRecord methods in your queries.
 
 ```
+[x] done
+
 Shelters with Pending Applications Listed Alphabetically
 
 As a visitor
@@ -358,6 +371,8 @@ Then I see all those shelters are listed alphabetically
 ```
 
 ```
+[x] done
+
 Admin Shelters Show Page Links
 
 As a visitor
@@ -368,6 +383,8 @@ Then I am taken to that shelter's admin show page
 ```
 
 ```
+[x] done
+
 Average Pet Age
 
 As a visitor
@@ -377,6 +394,8 @@ And in that section I see the average age of all adoptable pets for that shelter
 ```
 
 ```
+[x] done
+
 Count of Adoptable Pets
 
 As a visitor
@@ -386,6 +405,8 @@ And in that section I see the number of pets at that shelter that are adoptable
 ```
 
 ```
+[ ] done
+
 Count of Pets that have been Adopted
 
 As a visitor
@@ -397,6 +418,8 @@ Note: A Pet has been adopted from a shelter if they are part of an approved appl
 ```
 
 ```
+[ ] done
+
 Action Required
 
 As a visitor
@@ -406,6 +429,8 @@ In that section, I see a list of all pets for this shelter that have a pending a
 ```
 
 ```
+[ ] done
+
 Action Required Links to Application Show Page
 
 As a visitor

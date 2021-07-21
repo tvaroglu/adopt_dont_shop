@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'the shelters index' do
   before(:each) do
     @shelter_1 = Shelter.create!(
-      name: 'Aurora Shelter',
+      name: 'Fancy Pets of Colorado',
       address: '1200 Cedar Ct.',
       city: 'Aurora',
       state: 'CO',
@@ -19,7 +19,7 @@ RSpec.describe 'the shelters index' do
       foster_program: false,
       rank: 5)
     @shelter_3 = Shelter.create!(
-      name: 'Fancy Pets of Colorado',
+      name: 'Denver Metro Shelter',
       address: '8300 Colfax Ave.',
       city: 'Denver',
       state: 'CO',
@@ -52,8 +52,8 @@ RSpec.describe 'the shelters index' do
     # save_and_open_page
 
     first = find("#shelter-#{@shelter_2.id}")
-    second = find("#shelter-#{@shelter_3.id}")
-    third = find("#shelter-#{@shelter_1.id}")
+    second = find("#shelter-#{@shelter_1.id}")
+    third = find("#shelter-#{@shelter_3.id}")
 
     expect(first).to appear_before(second)
     expect(second).to appear_before(third)
@@ -110,7 +110,11 @@ RSpec.describe 'the shelters index' do
         expect(page).to_not have_link(@shelter_3.name)
       end
     end
-    it 'displays the section if applications are pending' do
+    # As a visitor
+    #   When I visit the admin shelter index ('/admin/shelters')
+    #   And I look in the section for shelters with pending applications
+    #   Then I see all those shelters are listed alphabetically
+    it 'displays the section in alphabetical order if applications are pending' do
       application_1 = Application.create!(
         applicant_fullname: 'John Smith',
         applicant_address: '1200 3rd St.',
@@ -130,6 +134,7 @@ RSpec.describe 'the shelters index' do
 
       application_1.pets << @shelter_1.pets.all.last
       application_2.pets << @shelter_1.pets.all.last
+      application_2.pets << @shelter_3.pets.all.last
 
       visit "/admin/shelters"
       # save_and_open_page
@@ -137,8 +142,10 @@ RSpec.describe 'the shelters index' do
       within "#pending-apps" do
         expect(page).to have_content("Shelters With Pending Applications:")
         expect(page).to have_link(@shelter_1.name)
+        expect(page).to have_link(@shelter_3.name)
         expect(page).to_not have_link(@shelter_2.name)
-        expect(page).to_not have_link(@shelter_3.name)
+
+        expect(@shelter_3.name).to appear_before(@shelter_1.name)
       end
     end
   end
