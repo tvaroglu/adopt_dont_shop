@@ -74,14 +74,13 @@ RSpec.describe PetApplication, type: :model do
       expect(application.status).to eq('Pending')
 
       PetApplication.update_application_status(application.id, application.pets.first.id, 'Pending Review')
-
       pet_application = PetApplication.pet_approval_status(application.pets.first.id, application.id)
 
       expect(pet_application.status).to eq('Pending Review')
       expect(Application.find(application.id).status).to eq('Pending')
     end
 
-    it '#pet_approval_status is independent of individual Application statuses' do
+    it '#pet_approval_status is independent of individual Application statuses with the same pets' do
       application_1 = Application.create!(
         applicant_fullname: 'John Smith',
         applicant_address: '1200 3rd St.',
@@ -173,11 +172,11 @@ RSpec.describe PetApplication, type: :model do
     expected = Application.find(application.id)
     expect(expected.status).to eq('Pending')
 
-    PetApplication.update_application_status(application.id, shelter.pets.first.id, 'Approved')
-    expected = Application.find(application.id)
-    expect(expected.status).to eq('Pending')
-
     PetApplication.update_application_status(application.id, shelter.pets.last.id, 'Rejected')
+    expected = Application.find(application.id)
+    expect(expected.status).to eq('Rejected')
+
+    PetApplication.update_application_status(application.id, shelter.pets.first.id, 'Approved')
     expected = Application.find(application.id)
     expect(expected.status).to eq('Rejected')
   end
