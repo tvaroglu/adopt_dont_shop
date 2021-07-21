@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   post '/admin/applications/:id/pets', to: 'applications#add_pets'
   patch '/admin/applications/:id/submit', to: 'applications#submit'
 
+  post '/admin/applications/:id/:pet_id', to: 'pet_applications#review'
+
 
 
   get '/veterinary_offices', to: 'veterinary_offices#index'

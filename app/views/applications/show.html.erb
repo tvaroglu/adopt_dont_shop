@@ -5,13 +5,15 @@
     <h6><%= "Applicant Address: #{@application.full_address}" %></h6>
     <h6><%= "Application Status: #{@application.status}" %></h6>
     <% if @application.status == 'Pending' %>
-      <h6><%= "Applicant Description: #{@application.applicant_description}" %></h6>
+      <%= render "approval" %>
     <% end %>
     <br>
     <h4><em>Pets Applied For:</em></h4>
     <% @pets.each do |pet| %>
       <div id="pet-<%= pet.id %>">
         <p><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></p>
+        <p><em>Current Status: </em><%= "#{PetApplication.pet_approval_status(pet.id, @application.id).status}" %>
+        <br>
       </div>
     <% end %>
     <br>

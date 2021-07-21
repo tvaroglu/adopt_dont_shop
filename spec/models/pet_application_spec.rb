@@ -37,7 +37,7 @@ RSpec.describe PetApplication, type: :model do
       expect(pet_application.status).to eq(nil)
       expect(application.status).to eq('Pending')
 
-      PetApplication.update_status(pet_application.id, 'Approved')
+      PetApplication.update_status(application.id, 'Approved')
       updated_pet_application = PetApplication.find_by(application_id: application.id)
 
       expect(updated_pet_application.status).to eq('Approved')
