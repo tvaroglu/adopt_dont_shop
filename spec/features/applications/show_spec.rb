@@ -55,7 +55,7 @@ RSpec.describe 'the application show' do
     expect(page).to have_content("Applicant Name: #{application.applicant_fullname}")
     expect(page).to have_content("Applicant Address: #{application.full_address}")
     expect(page).to have_content("Application Status: #{application.status}")
-    expect(page).to_not have_content("Applicant Description: #{application.applicant_description}")
+    expect(page).to have_content("Applicant Description: #{application.applicant_description}")
 
     expect(page).to have_link(shelter.pets.all[0].name)
     expect(page).to have_link(shelter.pets.all[1].name)
