@@ -4,15 +4,15 @@ class ApplicationsController < ApplicationController
     @applications = Application.all
   end
 
+  def new
+  end
+
   def show
     @application = Application.find(params[:id])
     if !@application.has_pets?
       @application.update(status: 'In Progress')
     end
     @pets = @application.pets.all
-  end
-
-  def new
   end
 
   def create

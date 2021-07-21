@@ -5,7 +5,7 @@
     <h6><%= "Applicant Address: #{@application.full_address}" %></h6>
     <h6><%= "Application Status: #{@application.status}" %></h6>
     <% if @application.status == 'Pending' %>
-      <%= render "approval" %>
+      <%= render partial: "approval", locals: { method: "post" } %>
     <% end %>
     <br>
     <h4><em>Pets Applied For:</em></h4>

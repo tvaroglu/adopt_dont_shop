@@ -111,9 +111,9 @@ RSpec.describe 'the shelters index' do
       end
     end
     # As a visitor
-    #   When I visit the admin shelter index ('/admin/shelters')
-    #   And I look in the section for shelters with pending applications
-    #   Then I see all those shelters are listed alphabetically
+      # When I visit the admin shelter index ('/admin/shelters')
+      # And I look in the section for shelters with pending applications
+      # Then I see all those shelters are listed alphabetically
     it 'displays the section in alphabetical order if applications are pending' do
       application_1 = Application.create!(
         applicant_fullname: 'John Smith',
@@ -149,6 +149,22 @@ RSpec.describe 'the shelters index' do
       end
     end
   end
+
+  ## Custom story (Applications index #36)
+  # As a visitor
+    # When I visit the admin shelter index ('/admin/shelters')
+    # I see a button to view all applications
+    # When I click this button
+    # Then I am taken to the admin application index page
+    # And I see a link to all applications, the applicant name, created date, and current status
+  it 'links to the applications index page' do
+    visit "/admin/shelters"
+    # save_and_open_page
+
+    click_on "View All: Adoption Applications"
+    expect(current_path).to eq("/admin/applications")
+  end
+  
 
   it 'has a link to sort shelters by the number of pets they have' do
     visit "/admin/shelters"

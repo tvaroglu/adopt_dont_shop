@@ -4,7 +4,7 @@
   <% @applications.each do |application| %>
     <div id="application-<%= application.id %>">
       <h3><%= link_to "Application: #{application.applicant_fullname}", "/admin/applications/#{application.id}" %></h3>
-      <p>Created at: <%= application.created_at %></p>
+      <p>Created At: <%= application.created_at %></p>
       <p>Current Status: <%= application.status %></p>
     </div>
     <br>

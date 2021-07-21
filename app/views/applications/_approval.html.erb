@@ -6,9 +6,9 @@
   <% if PetApplication.pet_approval_status(pet.id, @application.id).status == 'Pending Review' %>
     <div id="pet-approval-<%= pet.id %>">
       <div style="float:left; padding-right:20px;">
-        <%= button_to "Approve #{pet.name}", "/admin/applications/#{@application.id}/#{pet.id}", method: :post, params: { pet_id: "#{pet.id}", status: "Approved" } %>
+        <%= button_to "Approve #{pet.name}", "/admin/applications/#{@application.id}/#{pet.id}", method: :method, params: { pet_id: "#{pet.id}", status: "Approved" } %>
       </div>
-      <%= button_to "Reject #{pet.name}", "/admin/applications/#{@application.id}/#{pet.id}", method: :post, params: { pet_id: "#{pet.id}", status: "Rejected" } %>
+      <%= button_to "Reject #{pet.name}", "/admin/applications/#{@application.id}/#{pet.id}", method: :method, params: { pet_id: "#{pet.id}", status: "Rejected" } %>
     </div>
     <br>
   <% end %>
