@@ -4,7 +4,7 @@
     <h6><%= "Applicant Name: #{@application.applicant_fullname}" %></h6>
     <h6><%= "Applicant Address: #{@application.full_address}" %></h6>
     <h6><%= "Application Status: #{@application.status}" %></h6>
-    <% if @application.status == 'Pending' %>
+    <% if @application.status != 'In Progress' && @application.status != 'Approved' %>
       <%= render partial: "approval", locals: { method: "post" } %>
     <% end %>
     <br>
@@ -17,10 +17,10 @@
       </div>
     <% end %>
     <br>
-    <% if @application.status != 'Pending' %>
+    <% if @application.status == 'In Progress' %>
       <%= render "search" %>
     <% end %>
-    <% if @application.has_pets? && @application.status != 'Pending' %>
+    <% if @application.status == 'In Progress' && @application.has_pets? %>
       <%= render "submit" %>
     <% end %>
 </div>
