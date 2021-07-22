@@ -318,4 +318,65 @@ RSpec.describe 'the application approval' do
     expect(page).to have_content("Application Status: Approved")
   end
 
+  # As a visitor
+    # When I visit an admin application show page
+    # And I approve all pets on the application
+    # And when I visit the show pages for those pets
+    # Then I see that those pets are no longer "adoptable"
+  it 'can change a pet status to un-adoptable after an application is approved' do
+    application = Application.create!(
+      applicant_fullname: 'John Smith',
+      applicant_address: '1200 3rd St.',
+      applicant_city: 'Golden',
+      applicant_state: 'CO',
+      applicant_zipcode: '80401',
+      applicant_description: 'I am a good guy',
+      status: 'Pending')
+
+    shelter = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '123 Main St.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
+    shelter.pets.create!(
+      name: 'Mr. Pirate',
+      breed: 'Tuxedo Shorthair',
+      age: 5,
+      adoptable: true)
+    shelter.pets.create!(
+      name: 'Macaroni',
+      breed: 'Scottish Fold',
+      age: 2,
+      adoptable: true)
+
+    application.pets << shelter.pets.all.first
+    application.pets << shelter.pets.all.last
+
+    visit "/pets"
+    # save_and_open_page
+
+    expect(page).to have_content(application.pets.first.name)
+    expect(page).to have_content(application.pets.last.name)
+
+    PetApplication.update_application_status(application.id, application.pets.first.id, 'Pending Review')
+    PetApplication.update_application_status(application.id, application.pets.last.id, 'Pending Review')
+
+    visit "/admin/applications/#{application.id}"
+    # save_and_open_page
+
+    click_on("Approve #{application.pets.first.name}")
+    click_on("Approve #{application.pets.last.name}")
+
+    expect(current_path).to eq("/admin/applications/#{application.id}")
+
+    visit "/pets"
+    # save_and_open_page
+
+    expect(page).to_not have_content(application.pets.first.name)
+    expect(page).to_not have_content(application.pets.last.name)
+  end
+
 end

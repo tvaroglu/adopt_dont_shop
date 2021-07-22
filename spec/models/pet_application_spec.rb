@@ -221,7 +221,6 @@ RSpec.describe PetApplication, type: :model do
 
     expect(PetApplication.pet_approval_status(application.pets.first.id, application.id).status).to eq(nil)
     expect(PetApplication.pet_approval_status(application.pets.last.id, application.id).status).to eq(nil)
-    expect(application.status).to eq('Pending')
 
     PetApplication.update_application_status(application.id, application.pets.first.id, 'Approved')
     PetApplication.update_application_status(application.id, application.pets.last.id, 'Approved')
@@ -229,6 +228,49 @@ RSpec.describe PetApplication, type: :model do
     expect(PetApplication.pet_approval_status(application.pets.first.id, application.id).status).to eq('Approved')
     expect(PetApplication.pet_approval_status(application.pets.last.id, application.id).status).to eq('Approved')
     expect(Application.find(application.id).status).to eq('Approved')
+  end
+
+  it 'can #update_adoption_status once an application is approved' do
+    application = Application.create!(
+      applicant_fullname: 'John Smith',
+      applicant_address: '1200 3rd St.',
+      applicant_city: 'Golden',
+      applicant_state: 'CO',
+      applicant_zipcode: '80401',
+      applicant_description: 'I am a good guy',
+      status: 'Pending')
+
+    shelter = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '123 Main St.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
+    shelter.pets.create!(
+      name: 'Mr. Pirate',
+      breed: 'Tuxedo Shorthair',
+      age: 5,
+      adoptable: true)
+    shelter.pets.create!(
+      name: 'Macaroni',
+      breed: 'Scottish Fold',
+      age: 2,
+      adoptable: true)
+
+    application.pets << shelter.pets.all.first
+    application.pets << shelter.pets.all.last
+
+    expect(Pet.find(application.pets.all.first.id).adoptable).to be true
+    expect(Pet.find(application.pets.all.last.id).adoptable).to be true
+
+    PetApplication.update_application_status(application.id, application.pets.first.id, 'Approved')
+    PetApplication.update_application_status(application.id, application.pets.last.id, 'Approved')
+    expect(Application.find(application.id).status).to eq('Approved')
+
+    expect(Pet.find(application.pets.all.first.id).adoptable).to be false
+    expect(Pet.find(application.pets.all.last.id).adoptable).to be false
   end
 
 end
