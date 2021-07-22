@@ -17,5 +17,12 @@
 @import "rails_bootstrap_forms";
 
 body {
-  overflow-x: hidden
+  overflow-x: hidden;
+  background-image: linear-gradient(white, grey);
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: contain;
+  background-attachment: fixed;
 }
