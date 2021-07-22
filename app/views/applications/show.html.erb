@@ -4,11 +4,13 @@
     <h6><%= "Applicant Name: #{@application.applicant_fullname}" %></h6>
     <h6><%= "Applicant Address: #{@application.full_address}" %></h6>
     <h6><%= "Application Status: #{@application.status}" %></h6>
-    <% if @application.status == 'Pending' %>
+    <h6><%= "Applicant Description: #{@application.applicant_description}" %></h6>
+    <br>
+    <% if @application.status != 'In Progress' %>
       <%= render partial: "approval", locals: { method: "post" } %>
     <% end %>
     <br>
-    <h4><em>Pets Applied For:</em></h4>
+    <h5><strong><em>Pets Applied For:</em></strong></h5>
     <% @pets.each do |pet| %>
       <div id="pet-<%= pet.id %>">
         <p><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></p>
@@ -17,10 +19,10 @@
       </div>
     <% end %>
     <br>
-    <% if @application.status != 'Pending' %>
+    <% if @application.status == 'In Progress' %>
       <%= render "search" %>
     <% end %>
-    <% if @application.has_pets? && @application.status != 'Pending' %>
+    <% if @application.status == 'In Progress' && @application.has_pets? %>
       <%= render "submit" %>
     <% end %>
 </div>

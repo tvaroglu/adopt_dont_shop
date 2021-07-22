@@ -29,6 +29,22 @@ shelter_2 = Shelter.create!(
   zipcode: '80302',
   foster_program: false,
   rank: 9)
+shelter_3 = Shelter.create!(
+  name: 'RGV Animal Shelter',
+  address: '1900 N Stemmons Fwy.',
+  city: 'Dallas',
+  state: 'TX',
+  zipcode: '75001',
+  foster_program: false,
+  rank: 5)
+shelter_4 = Shelter.create!(
+  name: 'Fancy Pets of Colorado',
+  address: '8300 Colfax Ave.',
+  city: 'Denver',
+  state: 'CO',
+  zipcode: '80014',
+  foster_program: true,
+  rank: 10)
 
 # Pets
 shelter_1.pets.create!(
@@ -56,6 +72,12 @@ shelter_2.pets.create!(
   name: 'Dumpling',
   breed: 'Russian Blue',
   age: 6,
+  adoptable: true)
+
+shelter_3.pets.create!(
+  name: 'Lucille Bald',
+  breed: 'Sphynx',
+  age: 8,
   adoptable: true)
 
 # Applications
