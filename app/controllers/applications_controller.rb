@@ -34,7 +34,7 @@ class ApplicationsController < ApplicationController
     @application = Application.find(params[:id])
     @pet = Pet.find(params[:pet_id])
     @application.pets << @pet
-    # PetApplication.update_pet_approval_status(@pet.id, 'Pending Review')
+    # callback func would be invoked in line 36, to eliminate line 38 method call
     PetApplication.update_application_status(@application.id, @pet.id, 'Pending Review')
     redirect_to "/admin/applications/#{@application.id}"
   end

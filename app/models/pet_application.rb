@@ -13,6 +13,10 @@ class PetApplication < ApplicationRecord
       Pet.update_adoption_status(app_id)
     end
   end
+  # callback method can run before or after control action for custom methods
+    # (i.e. to set default column value)
+    # typically used to check session data
+  # this would go in a controller action within the PetApplication controller
 
   def self.reject(app_id)
     Application.find_by(id: app_id)
