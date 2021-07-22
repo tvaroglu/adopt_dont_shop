@@ -1,9 +1,9 @@
 <div style="padding-left: 20px;">
   <h1>All Shelters</h1>
   <div style="float:left; padding-right:5px;">
-    <%= button_to "Sort by: Number of Pets", "/admin/shelters", method: :get, params: { sort: 'pet_count' } %>
+    <%= button_to "Sort by Number of Pets", "/admin/shelters", method: :get, params: { sort: 'pet_count' } %>
   </div>
-  <%= button_to "View All: Adoption Applications", "/admin/applications", method: :get %>
+  <%= button_to "View All Adoption Applications", "/admin/applications", method: :get %>
   <br>
   <%= form_with url: "/admin/shelters", method: :get, local: true do |f| %>
     <%= f.label :search %>
@@ -16,9 +16,9 @@
       <h3><%= link_to "#{shelter.name}", "/admin/shelters/#{shelter.id}" %></h3>
       <p>Created at: <%= shelter.created_at %></p>
       <div style="float:left; padding-right:5px;">
-        <%= button_to "Update: #{shelter.name}", "/admin/shelters/#{shelter.id}/edit", method: :get %>
+        <%= button_to "Update Shelter", "/admin/shelters/#{shelter.id}/edit", method: :get %>
       </div>
-      <%= button_to "Delete: #{shelter.name}", "/admin/shelters/#{shelter.id}", method: :delete %>
+      <%= button_to "Delete Shelter", "/admin/shelters/#{shelter.id}", method: :delete %>
     </div>
     <br><br>
   <% end %>

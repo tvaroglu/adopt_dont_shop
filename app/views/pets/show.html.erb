@@ -7,10 +7,11 @@
   <% else %>
     <p>Adoptable: No</p>
   <% end %>
-  <p>Shelter: <%= @pet.shelter_name %></p>
+  <p>Shelter: <%= link_to "#{@pet.shelter.name}", "/admin/shelters/#{@pet.shelter.id}" %></p>
+
   <div style="float:left; padding-right:5px;">
-    <%= button_to "Update: #{@pet.name}", "/pets/#{@pet.id}/edit", method: :get %>
+    <%= button_to "Update Pet", "/pets/#{@pet.id}/edit", method: :get %>
   </div>
-  <%= button_to "Delete: #{@pet.name}", "/pets/#{@pet.id}", method: :delete %>
+  <%= button_to "Delete Pet", "/pets/#{@pet.id}", method: :delete %>
   <br><br>
 </div>

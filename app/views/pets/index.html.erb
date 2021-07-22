@@ -21,10 +21,6 @@
         <p>Adoptable: No</p>
       <% end %>
       <p>You can find <%= pet.name %> at <%= "#{pet.shelter_name}" %>!</p>
-      <div style="float:left; padding-right:5px;">
-        <%= button_to "Edit: #{pet.name}", "/pets/#{pet.id}/edit", method: :get %>
-      </div>
-      <%= button_to "Delete: #{pet.name}", "/pets/#{pet.id}", method: :delete %>
       <br><br>
   </div>
   <% end %>

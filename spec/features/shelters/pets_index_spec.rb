@@ -27,7 +27,7 @@ RSpec.describe 'the shelters pets index' do
     expect(page).to_not have_content(@pet_3.shelter_name)
   end
 
-  it 'displays a link to create a new pet' do
+  it 'displays a button to create a new pet' do
     visit "/admin/shelters/#{@shelter.id}/pets"
 
     expect(page).to have_button("Create New Pet")
@@ -35,27 +35,48 @@ RSpec.describe 'the shelters pets index' do
     expect(page).to have_current_path("/admin/shelters/#{@shelter.id}/pets/new")
   end
 
-  it 'displays a link to edit each pet' do
+  it 'displays a button to edit each pet' do
     visit "/admin/shelters/#{@shelter.id}/pets"
+    # save_and_open_page
 
-    expect(page).to have_button("Edit: #{@pet_1.name}")
-    expect(page).to have_button("Edit: #{@pet_2.name}")
+    within "#pet-#{@pet_1.id}" do
+      expect(page).to have_button("Edit Pet")
+      click_on("Edit Pet")
+      expect(page).to have_current_path("/pets/#{@pet_1.id}/edit")
+    end
 
-    click_on("Edit: #{@pet_1.name}")
+    visit "/admin/shelters/#{@shelter.id}/pets"
+    # save_and_open_page
 
-    expect(page).to have_current_path("/pets/#{@pet_1.id}/edit")
+    within "#pet-#{@pet_2.id}" do
+      expect(page).to have_button("Edit Pet")
+      click_on("Edit Pet")
+      expect(page).to have_current_path("/pets/#{@pet_2.id}/edit")
+    end
   end
 
   it 'displays a link to delete each pet' do
     visit "/admin/shelters/#{@shelter.id}/pets"
+    # save_and_open_page
 
-    expect(page).to have_button("Delete: #{@pet_1.name}")
-    expect(page).to have_button("Delete: #{@pet_2.name}")
-
-    click_on("Delete: #{@pet_1.name}")
-
-    expect(page).to have_current_path("/pets")
+    within "#pet-#{@pet_1.id}" do
+      expect(page).to have_button("Delete Pet")
+      click_on("Delete Pet")
+      expect(current_path).to eq("/pets")
+    end
+    visit "/pets"
     expect(page).to_not have_content(@pet_1.name)
+
+    visit "/admin/shelters/#{@shelter.id}/pets"
+    # save_and_open_page
+
+    within "#pet-#{@pet_2.id}" do
+      expect(page).to have_button("Delete Pet")
+      click_on("Delete Pet")
+      expect(current_path).to eq("/pets")
+    end
+    visit "/pets"
+    expect(page).to_not have_content(@pet_2.name)
   end
 
   it 'displays a form for a number value' do
