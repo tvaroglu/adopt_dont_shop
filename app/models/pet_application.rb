@@ -10,6 +10,7 @@ class PetApplication < ApplicationRecord
       reject(app_id)
     elsif total_pet_count(app_id) == approved_pet_count(app_id)
       approve(app_id)
+      Pet.update_adoption_status(app_id)
     end
   end
 

@@ -285,7 +285,7 @@ And instead I see buttons to approve or reject the pet for this specific applica
 Once all pets on an application have been marked either accepted or rejected, then the application is no longer "Pending". If all the pets were accepted, then the application is "Accepted". If one or more pets on the application is rejected, then the entire application is "Rejected".
 
 ```
-[ ] done
+[x] done
 
 All Pets Accepted on an Application
 
@@ -297,7 +297,7 @@ And I see the application's status has changed to "Approved"
 ```
 
 ```
-[ ] done
+[x] done
 
 One or More Pets Rejected on an Application
 
@@ -310,7 +310,7 @@ And I see the application's status has changed to "Rejected"
 ```
 
 ```
-[ ] done
+[x] done
 
 Application Approval makes Pets not adoptable
 
