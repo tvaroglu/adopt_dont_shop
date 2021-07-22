@@ -144,9 +144,47 @@ RSpec.describe Shelter, type: :model do
         expect(expected.last.name).to eq(shelter_1.name)
       end
     end
+
   end
 
   describe 'instance methods' do
+    describe '.adopted_pets' do
+      it 'can return the number of pets with approved applications' do
+        application = Application.create!(
+          applicant_fullname: 'John Smith',
+          applicant_address: '1200 3rd St.',
+          applicant_city: 'Golden',
+          applicant_state: 'CO',
+          applicant_zipcode: '80401',
+          applicant_description: 'I am a good guy',
+          status: 'Approved')
+
+        shelter = Shelter.create!(
+          name: 'Boulder Shelter',
+          address: '45 Broadway Ave',
+          city: 'Boulder',
+          state: 'CO',
+          zipcode: '80302',
+          foster_program: false,
+          rank: 9)
+        shelter.pets.create!(
+          name: 'Mr. Pirate',
+          breed: 'Tuxedo Shorthair',
+          age: 5,
+          adoptable: false)
+        shelter.pets.create!(
+          name: 'Macaroni',
+          breed: 'Scottish Fold',
+          age: 2,
+          adoptable: false)
+
+        application.pets << shelter.pets.all.first
+        application.pets << shelter.pets.all.first
+
+        expect(shelter.total_adopted_pets(shelter.id)).to eq(2)
+      end
+    end
+    
     describe '.adoptable_pets' do
       it 'only returns pets that are adoptable' do
         expect(@shelter_1.adoptable_pets).to eq([@pet_2, @pet_4])

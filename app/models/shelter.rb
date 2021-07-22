@@ -27,6 +27,12 @@ class Shelter < ApplicationRecord
     .order(:name)
   end
 
+  def total_adopted_pets(shelter_id)
+    Shelter.joins(pets: :applications)
+    .where({applications: {status: 'Approved'}})
+    .where({pets: {adoptable: false}})
+    .count
+  end
 
   def shelter_info(shelter_id)
     Shelter.find_by_sql(

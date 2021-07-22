@@ -405,7 +405,7 @@ And in that section I see the number of pets at that shelter that are adoptable
 ```
 
 ```
-[ ] done
+[x] done
 
 Count of Pets that have been Adopted
 

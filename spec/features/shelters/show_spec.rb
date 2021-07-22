@@ -24,14 +24,18 @@ RSpec.describe 'the shelter show' do
   end
 
   # As a visitor
-  #   When I visit an admin shelter show page
-  #   Then I see a section for statistics
-  #   And in that section I see the average age of all adoptable pets for that shelter
+    # When I visit an admin shelter show page
+    # Then I see a section for statistics
+    # And in that section I see the average age of all adoptable pets for that shelter
   # As a visitor
     # When I visit an admin shelter show page
     # Then I see a section for statistics
     # And in that section I see the number of pets at that shelter that are adoptable
-  it "shows a statistics section with the shelter's average pet age and number of adoptable pets" do
+  # As a visitor
+    # When I visit an admin shelter show page
+    # Then I see a section for statistics
+    # And in that section I see the number of pets that have been adopted from that shelter
+  it "shows a statistics section with the shelter's average pet age, number of adoptable pets, and number of adopted pets" do
     shelter = Shelter.create!(
       name: 'Aurora Shelter',
       address: '1200 Cedar Ct.',
@@ -55,6 +59,16 @@ RSpec.describe 'the shelter show' do
       breed: 'Sphynx',
       age: 9,
       adoptable: true)
+    application = Application.create!(
+      applicant_fullname: 'John Smith',
+      applicant_address: '1200 3rd St.',
+      applicant_city: 'Golden',
+      applicant_state: 'CO',
+      applicant_zipcode: '80401',
+      applicant_description: 'I am a good guy',
+      status: 'Approved')
+
+    application.pets << pet_1
 
     visit "/admin/shelters/#{shelter.id}"
     # save_and_open_page
@@ -62,6 +76,7 @@ RSpec.describe 'the shelter show' do
     expect(page).to have_content("Statistics:")
     expect(page).to have_content("Average Pet Age: #{(pet_1.age + pet_2.age + pet_3.age) / 3}")
     expect(page).to have_content("Number of Adoptable Pets: 2")
+    expect(page).to have_content("Number of Adopted Pets: 1")
   end
 
   it "shows the number of pets associated with the shelter" do
