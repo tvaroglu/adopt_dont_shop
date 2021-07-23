@@ -11,8 +11,6 @@ class ApplicationsController < ApplicationController
     @application = Application.find(params[:id])
     if !@application.has_pets?
       @application.update(status: 'In Progress')
-    elsif @application.adopted_pets.count > 0 && @application.status == 'Pending'
-      @application.update(status: 'Invalid')
     end
     @pets = @application.pets.all
   end

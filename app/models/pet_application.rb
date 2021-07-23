@@ -32,6 +32,7 @@ class PetApplication < ApplicationRecord
     select(:status)
     .where(pet_id: pet_id, application_id: application_id)
     .first
+    .status
   end
 
   def self.total_pet_count(app_id)
