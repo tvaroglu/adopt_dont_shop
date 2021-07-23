@@ -1,12 +1,19 @@
 <h4><em>Admin Approval for Applicant:</em> <%= "#{@application.applicant_fullname}" %></h4>
+<h6><%= "Application Status: #{@application.status}" %></h6>
 <% @pets.each do |pet| %>
-  <% if PetApplication.pet_approval_status(pet.id, @application.id).status == 'Pending Review' %>
     <div id="pet-approval-<%= pet.id %>">
-      <div style="float:left; padding-right:20px;">
-        <%= button_to "Approve #{pet.name}", "/admin/applications/#{@application.id}/#{pet.id}", method: :method, params: { pet_id: "#{pet.id}", status: "Approved" } %>
-      </div>
-      <%= button_to "Reject #{pet.name}", "/admin/applications/#{@application.id}/#{pet.id}", method: :method, params: { pet_id: "#{pet.id}", status: "Rejected" } %>
+      <% if PetApplication.pet_approval_status(pet.id, @application.id).status == 'Pending Review' && pet.adoptable && @application.status != 'Invalid' %>
+        <div style="float:left; padding-right:20px;">
+          <%= button_to "Approve #{pet.name}", "/admin/applications/#{@application.id}/#{pet.id}", method: :method, params: { pet_id: "#{pet.id}", status: "Approved" } %>
+        </div>
+      <% elsif !pet.adoptable && @application.status == 'Invalid' %>
+        <p><strong>Error: </strong><%= "#{pet.name} Already Approved for Adoption on Another Application" %>
+      <% end %>
+    </div>
+    <div id="pet-rejection-<%= pet.id %>">
+      <% if PetApplication.pet_approval_status(pet.id, @application.id).status == 'Pending Review' %>
+        <%= button_to "Reject #{pet.name}", "/admin/applications/#{@application.id}/#{pet.id}", method: :method, params: { pet_id: "#{pet.id}", status: "Rejected" } %>
+      <% end %>
     </div>
     <br>
-  <% end %>
 <% end %>

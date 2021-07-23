@@ -3,7 +3,6 @@
   <h3><%= "Application: #{@application.last_updated}" %></h3>
     <h6><%= "Applicant Name: #{@application.applicant_fullname}" %></h6>
     <h6><%= "Applicant Address: #{@application.full_address}" %></h6>
-    <h6><%= "Application Status: #{@application.status}" %></h6>
     <h6><%= "Applicant Description: #{@application.applicant_description}" %></h6>
     <br>
     <% if @application.status != 'In Progress' %>
