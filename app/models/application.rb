@@ -7,14 +7,18 @@ class Application < ApplicationRecord
 
   has_many :pet_applications, dependent: :delete_all
   has_many :pets, through: :pet_applications
-  
+
 
   def full_address
     "#{self.applicant_address}, #{self.applicant_city}, #{self.applicant_state} #{self.applicant_zipcode}"
   end
 
   def has_pets?
-    self.pets.count > 0
+    pets.count > 0
+  end
+
+  def adopted_pets
+    pets.where(adoptable: false)
   end
 
 end

@@ -176,6 +176,7 @@ RSpec.describe PetApplication, type: :model do
     application.pets << shelter.pets.all.last
 
     expected = Application.find(application.id)
+    #could try .reload method to reset stored instance variables in testing ActiveRecord updates
     expect(expected.status).to eq('Pending')
 
     PetApplication.update_application_status(application.id, shelter.pets.last.id, 'Rejected')

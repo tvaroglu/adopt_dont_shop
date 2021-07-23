@@ -181,10 +181,10 @@ RSpec.describe Shelter, type: :model do
         application.pets << shelter.pets.all.first
         application.pets << shelter.pets.all.first
 
-        expect(shelter.total_adopted_pets(shelter.id)).to eq(2)
+        expect(shelter.adopted_pets(shelter.id).count).to eq(2)
       end
     end
-    
+
     describe '.adoptable_pets' do
       it 'only returns pets that are adoptable' do
         expect(@shelter_1.adoptable_pets).to eq([@pet_2, @pet_4])

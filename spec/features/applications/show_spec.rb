@@ -29,11 +29,6 @@ RSpec.describe 'the application show' do
       breed: 'Exotic Shorthair',
       age: 3,
       adoptable: true)
-    shelter.pets.create!(
-      name: 'Ann',
-      breed: 'Ragdoll',
-      age: 3,
-      adoptable: false)
 
     application = Application.create!(
       applicant_fullname: 'John Smith',
@@ -42,7 +37,7 @@ RSpec.describe 'the application show' do
       applicant_state: 'CO',
       applicant_zipcode: '80401',
       applicant_description: 'I am a good guy',
-      status: 'In Progress')
+      status: 'Pending')
 
     shelter.pets.all.each do |pet|
       application.pets << pet
@@ -55,11 +50,9 @@ RSpec.describe 'the application show' do
     expect(page).to have_content("Applicant Name: #{application.applicant_fullname}")
     expect(page).to have_content("Applicant Address: #{application.full_address}")
     expect(page).to have_content("Application Status: #{application.status}")
-    expect(page).to have_content("Applicant Description: #{application.applicant_description}")
 
     expect(page).to have_link(shelter.pets.all[0].name)
     expect(page).to have_link(shelter.pets.all[1].name)
-    expect(page).to have_link(shelter.pets.all[2].name)
   end
 
   it "links to each pet's show pages" do

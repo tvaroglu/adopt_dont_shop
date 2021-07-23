@@ -20,14 +20,10 @@
       <p>Breed: <%= pet.breed %></p>
       <p><%= pet.name %> can be adopted from <%= @shelter.name %>!</p>
       <div style="float:left; padding-right:5px;">
-        <%= button_to "Edit: #{pet.name}", "/pets/#{pet.id}/edit", method: :get %>
+        <%= button_to "Edit Pet", "/pets/#{pet.id}/edit", method: :get %>
       </div>
-      <%= button_to "Delete: #{pet.name}", "/pets/#{pet.id}", method: :delete %>
+      <%= button_to "Delete Pet", "/pets/#{pet.id}", method: :delete %>
       <br><br>
-    <div>
+    </div>
   <% end %>
-
-
-
-
 </div>

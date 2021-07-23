@@ -161,16 +161,16 @@ RSpec.describe 'the shelters index' do
     visit "/admin/shelters"
     # save_and_open_page
 
-    click_on "View All: Adoption Applications"
+    click_on "View All Adoption Applications"
     expect(current_path).to eq("/admin/applications")
   end
-  
+
 
   it 'has a link to sort shelters by the number of pets they have' do
     visit "/admin/shelters"
 
-    expect(page).to have_button("Sort by: Number of Pets")
-    click_on("Sort by: Number of Pets")
+    expect(page).to have_button("Sort by Number of Pets")
+    click_on("Sort by Number of Pets")
 
     expect(page).to have_current_path('/admin/shelters?sort=pet_count')
     expect(@shelter_1.name).to appear_before(@shelter_3.name)
@@ -179,41 +179,66 @@ RSpec.describe 'the shelters index' do
 
   it 'has a button to update each shelter' do
     visit "/admin/shelters"
+    # save_and_open_page
 
     within "#shelter-#{@shelter_1.id}" do
-      expect(page).to have_button("Update: #{@shelter_1.name}")
+      expect(page).to have_button("Update Shelter")
+      click_on("Update Shelter")
+      expect(page).to have_current_path("/admin/shelters/#{@shelter_1.id}/edit")
     end
+
+    visit "/admin/shelters"
+    # save_and_open_page
 
     within "#shelter-#{@shelter_2.id}" do
-      expect(page).to have_button("Update: #{@shelter_2.name}")
+      expect(page).to have_button("Update Shelter")
+      click_on("Update Shelter")
+      expect(page).to have_current_path("/admin/shelters/#{@shelter_2.id}/edit")
     end
+
+    visit "/admin/shelters"
+    # save_and_open_page
 
     within "#shelter-#{@shelter_3.id}" do
-      expect(page).to have_button("Update: #{@shelter_3.name}")
+      expect(page).to have_button("Update Shelter")
+      click_on("Update Shelter")
+      expect(page).to have_current_path("/admin/shelters/#{@shelter_3.id}/edit")
     end
-
-    click_on("Update: #{@shelter_1.name}")
-    expect(page).to have_current_path("/admin/shelters/#{@shelter_1.id}/edit")
   end
 
   it 'has a button to delete each shelter' do
     visit "/admin/shelters"
+    # save_and_open_page
 
     within "#shelter-#{@shelter_1.id}" do
-      expect(page).to have_button("Delete: #{@shelter_1.name}")
+      expect(page).to have_button("Delete Shelter")
+      click_on("Delete Shelter")
+      expect(page).to have_current_path("/admin/shelters")
     end
+
+    visit "/admin/shelters"
+    # save_and_open_page
+    expect(page).to_not have_content(@shelter_1.name)
 
     within "#shelter-#{@shelter_2.id}" do
-      expect(page).to have_button("Delete: #{@shelter_2.name}")
+      expect(page).to have_button("Delete Shelter")
+      click_on("Delete Shelter")
+      expect(page).to have_current_path("/admin/shelters")
     end
+
+    visit "/admin/shelters"
+    # save_and_open_page
+    expect(page).to_not have_content(@shelter_2.name)
 
     within "#shelter-#{@shelter_3.id}" do
-      expect(page).to have_button("Delete: #{@shelter_3.name}")
+      expect(page).to have_button("Delete Shelter")
+      click_on("Delete Shelter")
+      expect(page).to have_current_path("/admin/shelters")
     end
 
-    click_on("Delete: #{@shelter_1.name}")
-    expect(page).to have_current_path("/admin/shelters")
-    expect(page).to_not have_content(@shelter_1.name)
+    visit "/admin/shelters"
+    # save_and_open_page
+    expect(page).to_not have_content(@shelter_3.name)
   end
 
   it 'has a text box to filter results by keyword' do

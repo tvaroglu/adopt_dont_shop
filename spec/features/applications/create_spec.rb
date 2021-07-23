@@ -117,7 +117,6 @@ RSpec.describe 'the new application form' do
         expect(page).to have_content("Application: #{application.last_updated}")
         expect(page).to have_content("Applicant Name: #{application.applicant_fullname}")
         expect(page).to have_content("Applicant Address: #{application.full_address}")
-        expect(page).to have_content("Application Status: #{application.status}")
       end
     end
     context 'with invalid data' do

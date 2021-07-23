@@ -11,6 +11,8 @@ class ApplicationsController < ApplicationController
     @application = Application.find(params[:id])
     if !@application.has_pets?
       @application.update(status: 'In Progress')
+    elsif @application.adopted_pets.count > 0 && @application.status == 'Pending'
+      @application.update(status: 'Invalid')
     end
     @pets = @application.pets.all
   end
@@ -34,7 +36,7 @@ class ApplicationsController < ApplicationController
     @application = Application.find(params[:id])
     @pet = Pet.find(params[:pet_id])
     @application.pets << @pet
-    # PetApplication.update_pet_approval_status(@pet.id, 'Pending Review')
+    # callback func could be invoked in line 36, to eliminate line 38 method call
     PetApplication.update_application_status(@application.id, @pet.id, 'Pending Review')
     redirect_to "/admin/applications/#{@application.id}"
   end
