@@ -13,7 +13,7 @@
     <% @pets.each do |pet| %>
       <div id="pet-<%= pet.id %>">
         <p><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></p>
-        <p><em>Current Status: </em><%= "#{PetApplication.pet_approval_status(pet.id, @application.id).status}" %>
+        <p><em>Current Status: </em><%= "#{PetApplication.pet_approval_status(pet.id, @application.id)}" %>
         <br>
       </div>
     <% end %>

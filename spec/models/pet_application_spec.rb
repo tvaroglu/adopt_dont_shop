@@ -39,16 +39,17 @@ RSpec.describe PetApplication, type: :model do
       application.pets << shelter.pets.all.first
       application.pets << shelter.pets.all.last
 
-      expect(PetApplication.pet_approval_status(application.pets.first.id, application.id).status).to eq(nil)
-      expect(PetApplication.pet_approval_status(application.pets.last.id, application.id).status).to eq(nil)
+      expect(PetApplication.pet_approval_status(application.pets.first.id, application.id)).to eq(nil)
+      expect(PetApplication.pet_approval_status(application.pets.last.id, application.id)).to eq(nil)
       expect(application.status).to eq('Pending')
 
       PetApplication.update_application_status(application.id, application.pets.first.id, 'Approved')
 
-      expect(PetApplication.pet_approval_status(application.pets.first.id, application.id).status).to eq('Approved')
-      expect(PetApplication.pet_approval_status(application.pets.last.id, application.id).status).to eq(nil)
+      expect(PetApplication.pet_approval_status(application.pets.first.id, application.id)).to eq('Approved')
+      expect(PetApplication.pet_approval_status(application.pets.last.id, application.id)).to eq(nil)
       expect(Application.find(application.id).status).to eq('Pending')
     end
+
     it 'can return #pet_approval_status independent of Application status' do
       application = Application.create!(
         applicant_fullname: 'John Smith',
@@ -80,9 +81,8 @@ RSpec.describe PetApplication, type: :model do
       expect(application.status).to eq('Pending')
 
       PetApplication.update_application_status(application.id, application.pets.first.id, 'Pending Review')
-      pet_application = PetApplication.pet_approval_status(application.pets.first.id, application.id)
 
-      expect(pet_application.status).to eq('Pending Review')
+      expect(PetApplication.pet_approval_status(application.pets.first.id, application.id)).to eq('Pending Review')
       expect(Application.find(application.id).status).to eq('Pending')
     end
 
@@ -220,14 +220,14 @@ RSpec.describe PetApplication, type: :model do
     application.pets << shelter.pets.all.first
     application.pets << shelter.pets.all.last
 
-    expect(PetApplication.pet_approval_status(application.pets.first.id, application.id).status).to eq(nil)
-    expect(PetApplication.pet_approval_status(application.pets.last.id, application.id).status).to eq(nil)
+    expect(PetApplication.pet_approval_status(application.pets.first.id, application.id)).to eq(nil)
+    expect(PetApplication.pet_approval_status(application.pets.last.id, application.id)).to eq(nil)
 
     PetApplication.update_application_status(application.id, application.pets.first.id, 'Approved')
     PetApplication.update_application_status(application.id, application.pets.last.id, 'Approved')
 
-    expect(PetApplication.pet_approval_status(application.pets.first.id, application.id).status).to eq('Approved')
-    expect(PetApplication.pet_approval_status(application.pets.last.id, application.id).status).to eq('Approved')
+    expect(PetApplication.pet_approval_status(application.pets.first.id, application.id)).to eq('Approved')
+    expect(PetApplication.pet_approval_status(application.pets.last.id, application.id)).to eq('Approved')
     expect(Application.find(application.id).status).to eq('Approved')
   end
 
