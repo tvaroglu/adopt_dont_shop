@@ -434,6 +434,8 @@ RSpec.describe 'the application approval' do
 
     visit "/admin/applications/#{application_2.id}"
     # save_and_open_page
+    expect(Application.find(application_2.id).status).to eq('Invalid')
+    
     within "#pet-approval-#{application_2.pets.first.id}" do
       expect(page).to have_content("Error: #{application_2.pets.first.name} Already Approved for Adoption on Another Application")
       expect(page).to_not have_button("Approve #{application_2.pets.first.name}")
