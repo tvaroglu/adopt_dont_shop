@@ -1,9 +1,6 @@
-# Adopt, don't Shop
+# Adopt, Don't Shop!
 
-### Existing database design
-<img width="950" alt="original_schema" src="https://i.postimg.cc/0ywZgQ1W/visual-schema.png">
-
-### Proposed database design
+### Database Design:
 <img width="950" alt="db_schema_2021-07-16_at_14_04_37" src="https://user-images.githubusercontent.com/58891447/126002884-653d04ec-fc06-43fc-aed8-5596c3694505.png">
 
 
@@ -21,11 +18,11 @@ In this project, students will build upon the code in this repo to create a Pet 
 * Track user stories using GitHub Projects
 * Deploy an application to Heroku
 
-## Check In
+## Project Check In
 
 During your Check In, you should be prepared to review your database schema for the many to many relationship, your deployment to Heroku, and your GitHub Projects board.
 
-## Rubric
+## Evaluation Rubric
 
 | | **Feature Completeness** | **Rails** | **ActiveRecord** | **Testing and Debugging** | **Project Management** |
 | --- | --- | --- | --- | --- | --- |
@@ -418,7 +415,7 @@ Note: A Pet has been adopted from a shelter if they are part of an approved appl
 ```
 
 ```
-[ ] done
+[x] done
 
 Action Required
 
@@ -429,7 +426,7 @@ In that section, I see a list of all pets for this shelter that have a pending a
 ```
 
 ```
-[ ] done
+[x] done
 
 Action Required Links to Application Show Page
 
@@ -483,6 +480,11 @@ Implement a CSS Grid Framework to improve your styling, either [CSS Grid Layout]
 * How to run the test suite
     ```bash
     $ bundle exec rspec
+    Finished in 3.86 seconds (files took 1.67 seconds to load)
+    160 examples, 0 failures
+    Coverage report generated for RSpec to /
+    ...
+    1722 / 1722 LOC (100.0%) covered.
     ```
 
 * [Local Deployment](http://localhost:3000), for testing:

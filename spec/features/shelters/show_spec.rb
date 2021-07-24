@@ -80,8 +80,16 @@ RSpec.describe 'the shelter show' do
   end
 
   it "shows the number of pets associated with the shelter" do
-    shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
-    shelter.pets.create(name: 'garfield', breed: 'shorthair', adoptable: true, age: 1)
+    shelter = Shelter.create!(
+      name: 'Aurora shelter',
+      city: 'Aurora, CO',
+      foster_program: false,
+      rank: 9)
+    shelter.pets.create!(
+      name: 'garfield',
+      breed: 'shorthair',
+      adoptable: true,
+      age: 1)
 
     visit "/admin/shelters/#{shelter.id}"
 
@@ -91,7 +99,11 @@ RSpec.describe 'the shelter show' do
   end
 
   it "allows the user to delete a shelter" do
-    shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+    shelter = Shelter.create!(
+      name: 'Aurora shelter',
+      city: 'Aurora, CO',
+      foster_program: false,
+      rank: 9)
 
     visit "/admin/shelters/#{shelter.id}"
 
@@ -102,7 +114,11 @@ RSpec.describe 'the shelter show' do
   end
 
   it 'displays a link to the shelters pets index' do
-    shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: true, rank: 9)
+    shelter = Shelter.create!(
+      name: 'Aurora shelter',
+      city: 'Aurora, CO',
+      foster_program: true,
+      rank: 9)
 
     visit "/admin/shelters/#{shelter.id}"
 
@@ -111,4 +127,45 @@ RSpec.describe 'the shelter show' do
 
     expect(page).to have_current_path("/admin/shelters/#{shelter.id}/pets")
   end
+
+  # As a visitor
+    # When I visit an admin shelter show page
+    # Then I see a section titled "Action Required"
+    # In that section, I see a list of all pets for this shelter that have a pending application and have not yet been marked "approved" or "rejected"
+  # When I look in the "Action Required" section
+    # Then next to each pet's name I see a link to the admin application show page where I can accept or reject the pet.
+  it 'displays the _action_required partial when applications are pending, with links to each application page' do
+    shelter = Shelter.create!(
+      name: 'Aurora Shelter',
+      address: '1200 Cedar Ct.',
+      city: 'Aurora',
+      state: 'CO',
+      zipcode: '80010',
+      foster_program: false,
+      rank: 9)
+    shelter.pets.create!(
+      name: 'Mr. Pirate',
+      breed: 'Tuxedo Shorthair',
+      age: 5,
+      adoptable: true)
+    application = Application.create!(
+      applicant_fullname: 'John Smith',
+      applicant_address: '1200 3rd St.',
+      applicant_city: 'Golden',
+      applicant_state: 'CO',
+      applicant_zipcode: '80401',
+      applicant_description: 'I am a good guy',
+      status: 'Pending')
+
+    application.pets << shelter.pets.first
+
+    visit "/admin/shelters/#{shelter.id}"
+    # save_and_open_page
+
+    expect(page).to have_content("Action Required:")
+    expect(page).to have_content("#{shelter.pets.first.name} pending application approval")
+    click_on("application approval")
+    expect(current_path).to eq("/admin/applications/#{application.id}")
+  end
+
 end
