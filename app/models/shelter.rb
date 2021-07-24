@@ -27,16 +27,29 @@ class Shelter < ApplicationRecord
     .order(:name)
   end
 
-  def shelter_info(shelter_id)
-    Shelter.find_by_sql(
-      "SELECT name, address, city, state, zipcode FROM shelters WHERE id = #{shelter_id}"
-    ).first
+  def has_pending_applications?(shelter_id)
+    Shelter.pending_applications
+    .where(id: shelter_id)
+    .length > 0
+  end
+
+  def pets_pending_approval(shelter_id)
+    Shelter.joins(pets: :applications)
+    .select("pets.name","applications.id")
+    .where(id: shelter_id)
+    .where({applications: {status: 'Pending'}})
   end
 
   def adopted_pets(shelter_id)
     Shelter.joins(pets: :applications)
     .where({applications: {status: 'Approved'}})
     .where({pets: {adoptable: false}})
+  end
+
+  def shelter_info(shelter_id)
+    Shelter.find_by_sql(
+      "SELECT name, address, city, state, zipcode FROM shelters WHERE id = #{shelter_id}"
+    ).first
   end
 
   def average_pet_age

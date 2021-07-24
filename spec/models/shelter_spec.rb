@@ -144,7 +144,6 @@ RSpec.describe Shelter, type: :model do
         expect(expected.last.name).to eq(shelter_1.name)
       end
     end
-
   end
 
   describe 'instance methods' do
@@ -179,9 +178,89 @@ RSpec.describe Shelter, type: :model do
           adoptable: false)
 
         application.pets << shelter.pets.all.first
-        application.pets << shelter.pets.all.first
+        application.pets << shelter.pets.all.last
 
         expect(shelter.adopted_pets(shelter.id).count).to eq(2)
+      end
+    end
+
+    describe '.has_pending_applications?' do
+      it 'can determine if pets are pending application approval' do
+        application = Application.create!(
+          applicant_fullname: 'John Smith',
+          applicant_address: '1200 3rd St.',
+          applicant_city: 'Golden',
+          applicant_state: 'CO',
+          applicant_zipcode: '80401',
+          applicant_description: 'I am a good guy',
+          status: 'Pending')
+
+        shelter = Shelter.create!(
+          name: 'Boulder Shelter',
+          address: '45 Broadway Ave',
+          city: 'Boulder',
+          state: 'CO',
+          zipcode: '80302',
+          foster_program: false,
+          rank: 9)
+        shelter.pets.create!(
+          name: 'Mr. Pirate',
+          breed: 'Tuxedo Shorthair',
+          age: 5,
+          adoptable: true)
+        shelter.pets.create!(
+          name: 'Macaroni',
+          breed: 'Scottish Fold',
+          age: 2,
+          adoptable: true)
+
+        application.pets << shelter.pets.all.first
+        application.pets << shelter.pets.all.last
+
+        expect(shelter.has_pending_applications?(shelter.id)).to be true
+      end
+    end
+
+    describe '.pets_pending_approval' do
+      it 'can return all pets that are pending application approval' do
+        application = Application.create!(
+          applicant_fullname: 'John Smith',
+          applicant_address: '1200 3rd St.',
+          applicant_city: 'Golden',
+          applicant_state: 'CO',
+          applicant_zipcode: '80401',
+          applicant_description: 'I am a good guy',
+          status: 'Pending')
+
+        shelter = Shelter.create!(
+          name: 'Boulder Shelter',
+          address: '45 Broadway Ave',
+          city: 'Boulder',
+          state: 'CO',
+          zipcode: '80302',
+          foster_program: false,
+          rank: 9)
+        shelter.pets.create!(
+          name: 'Mr. Pirate',
+          breed: 'Tuxedo Shorthair',
+          age: 5,
+          adoptable: true)
+        shelter.pets.create!(
+          name: 'Macaroni',
+          breed: 'Scottish Fold',
+          age: 2,
+          adoptable: true)
+
+        application.pets << shelter.pets.all.first
+        application.pets << shelter.pets.all.last
+
+        expected = shelter.pets_pending_approval(shelter.id)
+
+        expect(expected.length).to eq(2)
+        expect(expected.first.name).to eq(shelter.pets.first.name)
+        expect(expected.first.id).to eq(application.id)
+        expect(expected.last.name).to eq(shelter.pets.last.name)
+        expect(expected.last.id).to eq(application.id)
       end
     end
 

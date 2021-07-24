@@ -12,4 +12,8 @@
     <%= button_to "View All Pets At: #{@shelter.name}", "/admin/shelters/#{@shelter.id}/pets", method: :get %>
   </div>
   <%= button_to "Delete: #{@shelter.name}", "/admin/shelters/#{@shelter.id}", method: :delete %>
+  <br><br>
+  <% if @shelter.has_pending_applications?(@shelter.id) %>
+    <%= render "action_required" %>
+  <% end %>
 </div>
