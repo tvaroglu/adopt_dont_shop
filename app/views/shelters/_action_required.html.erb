@@ -1,4 +1,4 @@
 <h2><em>Action Required:</em></h2>
-<% @shelter.pets_pending_approval(@shelter.id).each do |record| %>
+<% @shelter.pets_pending_approval.each do |record| %>
   <h4> <%= "#{record.name} pending" %> <%= link_to "application approval", "/admin/applications/#{record.id}" %></h4>
 <% end %>

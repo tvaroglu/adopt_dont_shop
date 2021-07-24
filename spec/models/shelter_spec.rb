@@ -180,7 +180,7 @@ RSpec.describe Shelter, type: :model do
         application.pets << shelter.pets.all.first
         application.pets << shelter.pets.all.last
 
-        expect(shelter.adopted_pets(shelter.id).count).to eq(2)
+        expect(shelter.adopted_pets.count).to eq(2)
       end
     end
 
@@ -254,7 +254,7 @@ RSpec.describe Shelter, type: :model do
         application.pets << shelter.pets.all.first
         application.pets << shelter.pets.all.last
 
-        expected = shelter.pets_pending_approval(shelter.id)
+        expected = shelter.pets_pending_approval
 
         expect(expected.length).to eq(2)
         expect(expected.first.name).to eq(shelter.pets.first.name)

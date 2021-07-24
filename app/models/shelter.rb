@@ -33,14 +33,16 @@ class Shelter < ApplicationRecord
     .length > 0
   end
 
-  def pets_pending_approval(shelter_id)
+  # def pets_pending_approval(shelter_id)
+  def pets_pending_approval
     Shelter.joins(pets: :applications)
     .select("pets.name","applications.id")
-    .where(id: shelter_id)
+    # .where(id: shelter_id)
     .where({applications: {status: 'Pending'}})
   end
 
-  def adopted_pets(shelter_id)
+  # def adopted_pets(shelter_id)
+  def adopted_pets
     Shelter.joins(pets: :applications)
     .where({applications: {status: 'Approved'}})
     .where({pets: {adoptable: false}})
