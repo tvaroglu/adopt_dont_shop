@@ -502,4 +502,4 @@ Implement a CSS Grid Framework to improve your styling, either [CSS Grid Layout]
 
     ```
 
-* [Heroku Deployment](https://vast-beach-02155.herokuapp.com/), for production
+<!-- * [Heroku Deployment](https://vast-beach-02155.herokuapp.com/), for production -->
